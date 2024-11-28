@@ -1,6 +1,8 @@
 ---
 import { getCollection } from "astro:content";
+import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
+import MiniHeader from "../../components/MiniHeader.astro";
 
 export async function getStaticPaths() {
     const rutas = await getCollection('rutas')
@@ -16,5 +18,9 @@ const { data } = ruta
 const { titulo, destino, distancia, desnivel, alt_max, alt_min, dificultad, color, mapa_img, desnivel_img } = data
 ---
 <Layout title={titulo}>
+    <MiniHeader />
+    <BtnRutas />
+    <main>
 
+    </main>
 </Layout>

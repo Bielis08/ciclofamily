@@ -1,0 +1,44 @@
+<section class="-mt-1 mx-0 mb-36">
+    <header class="hidden fixed bg-page-200 md:flex justify-between items-center px-12 py-2 max-w-[1500px] rounded-xl shadow-lg mx-auto top-1 left-0 right-0 z-10">
+        <a href="/"><h1 class="text-4xl font-semibold flex items-center"><img class="size-20 mr-4 rounded-full" src="/Logo.png" alt="Logo de Ciclo Family"/> Ciclo Family</h1></a>
+        <nav class="flex gap-x-4">
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/" >Inicio</a>
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/rutas" >Rutas</a>
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/contacto" >Contacto</a>
+        </nav>
+    </header>
+    <header class="md:hidden fixed bg-page-200 flex-col z-10 justify-between items-center px-4 py-2 w-full xl shadow-lg top-0 left-0 right-0">
+        <div class="flex justify-between">
+            <a href="/"><h1 class="text-2xl font-semibold flex items-center"><img class="size-14 mr-1 rounded-full" src="/Logo.png" alt="Logo de Ciclo Family"/> Ciclo Family</h1></a>
+            <img id="menu" class="transition cursor-pointer" src="/icons/menu.svg" alt="Menu">
+        </div>
+        <nav id="navbar" class="grid text-center h-0 overflow-hidden place-content-center gap-x-4 transition-all">
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/" >Inicio</a>
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/rutas" >Rutas</a>
+            <a class="hover:scale-105 font-medium hover:underline transition hover:bg-page-500 text-xl rounded-xl px-4 py-2" href="/contacto" >Contacto</a>
+        </nav>
+    </header>
+</section>
+<script type="module">
+    function initMenu() {
+        const menubtn = document.getElementById('menu');
+        const navbar = document.getElementById('navbar');
+        let isOpen = false;
+
+        menubtn.addEventListener('click', function () {
+            if (!isOpen) {
+                navbar.classList.remove('h-0');
+                navbar.classList.add('h-32');
+                menubtn.src = '/icons/close.svg';
+                isOpen = true;
+            } else {
+                navbar.classList.remove('h-32');
+                navbar.classList.add('h-0');
+                menubtn.src = '/icons/menu.svg';
+                isOpen = false;
+            }
+        });
+    }
+    document.addEventListener('DOMContentLoaded', initMenu);
+    document.addEventListener('astro:after-swap', initMenu);
+</script>
