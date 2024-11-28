@@ -1,8 +1,8 @@
 ---
-titulo: "Santa Perpètua de Mogoda - Guanta"
-url: santa_perpetua_de_mogoda-guanta
+titulo: Santa Perpètua de Mogoda - Guanta
+url: /rutas/santa_perpetua_de_mogoda-guanta
 portada: /Rutas/Santa_Maria_de_Gallecs_2.png
-destino: "Guanta"
+destino: Guanta
 distancia: 39.23
 desnivel: 567
 alt_max: 428

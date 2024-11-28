@@ -1,20 +1,23 @@
 ---
-const rutas = await Astro.glob('../content/*.md');
+import { getCollection } from "astro:content";
+const rutas = await getCollection('rutas');
 ---
 <section class="mt-28">
     <h2 class="text-3xl text-center mb-20 font-bold text-lime-900">Rutas Destacadas</h2>
     <section class="flex text-pretty flex-wrap justify-center gap-8 mt-12 mb-16 mx-4">
         {
             rutas.map(ruta => {
+                const { slug, data } = ruta
+                const { url, portada, titulo, destino, color, distancia, dificultad, alt_max } = data
+
                 return (
                     <article class="w-96 h-fit rounded-xl bg-white">
-                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={ruta.frontmatter?.portada} alt={`Imagen de ${ruta.frontmatter?.titulo}`}>
+                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
-                            <h1 class="text-xl font-bold mt-8 mb-4">{ruta.frontmatter?.titulo}</h1>
-                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg" alt="">{ruta.frontmatter.destino}</span>
-                            <ruta.Content/>
+                            <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>
+                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg" alt="">{destino}</span>
                             <section class="flex items-center justify-between my-4">
-                                <span class="text-green-600 font-semibold">{`Dificultad: ${ruta.frontmatter.dificultad}`}</span>
+                                <span class="text-green-600 font-semibold">{`Dificultad: ${dificultad}`}</span>
                                 <button class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</button>
                             </section>
                         </div>

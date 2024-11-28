@@ -1,6 +1,7 @@
 ---
+import { getCollection } from "astro:content";
 import Buscador from "./Buscador.astro";
-const rutas = await Astro.glob('../content/*.md');
+const rutas = await getCollection('rutas');
 ---
 
 <section>
@@ -8,20 +9,23 @@ const rutas = await Astro.glob('../content/*.md');
     <section class="flex flex-wrap justify-center gap-12 mt-24">
         {
             rutas.map(ruta => {
+                const { slug, data } = ruta
+                const { url, portada, titulo, destino, color, distancia, dificultad, alt_max } = data
+
                 return (
-                    <a href={ruta.frontmatter.url} class="max-w-96 mx-6 h-fit rounded-xl bg-white hover:scale-105 transition">
-                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={ruta.frontmatter?.portada} alt={`Imagen de ${ruta.frontmatter?.titulo}`}>
+                    <a href={url} class="max-w-96 mx-6 h-fit rounded-xl bg-white hover:scale-105 transition">
+                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
-                            <h1 class="text-xl font-bold mt-8 mb-4">{ruta.frontmatter?.titulo}</h1>
-                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg">{ruta.frontmatter.destino}</span>
+                            <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>
+                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg">{destino}</span>
                             
                             <section class="flex items-center justify-between my-4">
-                                <span class="flex"><img class="size-5 mr-1" src="/icons/ubicacion.svg"> Distancia: <span class="font-semibold flex ml-1">{ruta.frontmatter.distancia} Km</span></span>
-                                <div class={ruta.frontmatter.color}>
-                                    <span class="flex items-center"><img class="size-8 mr-2" src="/icons/dificultad.svg">{ruta.frontmatter.dificultad}</span>
+                                <span class="flex"><img class="size-5 mr-1" src="/icons/ubicacion.svg"> Distancia: <span class="font-semibold flex ml-1">{distancia} Km</span></span>
+                                <div class={color}>
+                                    <span class="flex items-center"><img class="size-8 mr-2" src="/icons/dificultad.svg">{dificultad}</span>
                                 </div>
                             </section>
-                            <span class="flex"><img class="size-6 mr-1" src="/icons/desnivel.svg">Desnivel: <span class="font-semibold ml-1">{ruta.frontmatter.alt_max} m</span></span>
+                            <span class="flex"><img class="size-6 mr-1" src="/icons/desnivel.svg">Desnivel: <span class="font-semibold ml-1">{alt_max} m</span></span>
                         </div>
                     </a>
                 )

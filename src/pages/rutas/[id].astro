@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+    const rutas = await getCollection('rutas')
+    
+    return rutas.map((ruta) => ({
+        params: { id: ruta.slug },
+        props: { ruta }
+    }))
+}
+
+const { ruta } = Astro.props
+const { data } = ruta
+const { titulo, destino, distancia, desnivel, alt_max, alt_min, dificultad, color, mapa_img, desnivel_img } = data
+---
+<Layout title={titulo}>
+
+</Layout>
