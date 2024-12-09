@@ -9,6 +9,7 @@ alt_max: 428
 alt_min: 57
 dificultad: Moderada
 color: text-orange-600
+bgcolor: bg-orange-400
 mapa_img: /Rutas/Guanta_mapa.png
 desnivel_img: /Rutas/Guanta_desnivel.png
 ---
