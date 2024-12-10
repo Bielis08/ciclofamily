@@ -20,10 +20,21 @@ const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, dificul
 const { Content } = await render(ruta)
 ---
 <Layout title={titulo}>
+    <title>Ruta en bicicleta: {titulo}</title>
+    <meta name="description" content={`Descubre la ruta en bicicleta ${titulo}. Una actividad perfecta para explorar ${destino} con una distancia de ${distancia} km y un desnivel de ${desnivel} m.`} />
+    <meta name="keywords" content="rutas en bicicleta, rutas por Catalunya, rutas familiares, ciclismo, turismo en bicicleta, {destino}, {titulo}" />
+    <meta property="og:title" content={`Ruta en bicicleta: ${titulo}`} />
+    <meta property="og:description" content={`Explora la ruta ${titulo} con una distancia de ${distancia} km en ${destino}.`} />
+    <meta property="og:image" content={portada} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`Ruta en bicicleta: ${titulo}`} />
+    <meta name="twitter:description" content={`Explora ${titulo}, una ruta ideal para el ciclismo en ${destino}.`} />
+    <meta name="twitter:image" content={portada} />
     <MiniHeader />
     <BtnRutas />
     <main class="mx-auto rounded-xl my-6 max-w-[1200px] bg-page-300 bg-opacity-50">
-        <img class="w-full h-96 md:h-[600px] rounded-t-xl top-0 object-cover" src={portada} alt=`Fotografía de ${titulo}`>
+        <img loading="lazy" class="w-full h-96 md:h-[600px] rounded-t-xl top-0 object-cover" src={portada} alt=`Fotografía de ${titulo}`>
         <div class="mx-8">
             <h1 class="font-bold text-3xl my-4">{titulo}</h1>
             <div class="grid gap-y-4 sm:grid-cols-3  md:grid-cols-5 items-center font-medium my-10 ">
@@ -39,6 +50,6 @@ const { Content } = await render(ruta)
             <p class="mt-8"><Content /></p>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
         </div>
-        <img class="rounded-b-xl" src={mapa_img} alt=`Mapa de la ruta de ${titulo}`>
+        <img loading="lazy" class="rounded-b-xl" src={mapa_img} alt=`Mapa de la ruta de ${titulo}`>
     </main>
 </Layout>
