@@ -36,15 +36,18 @@ const { Content } = await render(ruta)
     <main class="mx-auto rounded-xl my-6 max-w-[1200px] bg-page-300 bg-opacity-50">
         <img loading="lazy" class="w-full h-96 md:h-[600px] rounded-t-xl top-0 object-cover" src={portada} alt=`Fotografía de ${titulo}`>
         <div class="mx-8">
-            <h1 class="font-bold text-3xl my-4">{titulo}</h1>
-            <div class="grid md:flex md:flex-wrap gap-y-4 grid-cols-2 sm:grid-cols-3 items-center font-medium my-10 ">
-                <span class="flex gap-1 mx-auto"><img class="size-7" src="/icons/ubicacion.svg">{destino}</span>
-                <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/distancia.svg">{distancia}</span>
-                <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/desnivel.svg">{desnivel}</span>
-                <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/max.svg">{alt_max}</span>
-                <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/min.svg">{alt_min}</span>
+            <div class="flex items-center gap-4">
+                <h1 class="font-bold text-3xl my-4">{titulo}</h1>
+                <span class=`${bgcolor} rounded-2xl h-10 p-2 font-medium`>{dificultad}</span>
             </div>
-            <span class=`${bgcolor} rounded-2xl p-2 font-medium`>{dificultad}</span>
+            <section class="mx-8 bg-white bg-opacity-40 p-4 flex rounded-xl border-black border-opacity-30 border-2">
+                <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg"><span class="flex flex-col mx-2">Destino<b>{destino}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg"><span class="flex flex-col mx-2">Distancia<b>{distancia}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg"><span class="flex flex-col mx-2">Desnivel<b>{desnivel}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg"><span class="flex flex-col mx-2">Altitud Máx<b>{alt_max}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg"><span class="flex flex-col mx-2">Altitud Mín<b>{alt_min}</b></span></span>
+            </section>
+            
             <p class="mt-8"><Content /></p>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
         </div>
