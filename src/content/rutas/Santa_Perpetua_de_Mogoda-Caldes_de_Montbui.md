@@ -15,4 +15,3 @@ mapa_img: /placeholder.jpg
 # mapa_img: /Rutas/Caldes_de_Montbui_mapa.png
 desnivel_img: /Rutas/Caldes_de_Montbui_desnivel.png
 ---
-
