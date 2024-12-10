@@ -15,3 +15,5 @@ desnivel_img: /Rutas/Santa_Maria_de_Gallecs_desnivel.png
 ---
 
 **Una iglesia románica encantadora** y una tienda al lado (agrobotiga), donde encontraréis productos ecológicos de proximidad.
+
+Esta ruta transcurre **entre campos de cultivo** del paraje natural de Gallecs.
