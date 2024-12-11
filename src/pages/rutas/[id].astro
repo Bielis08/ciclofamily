@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { ruta } = Astro.props
 const { data } = ruta
-const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, dificultad, color, bgcolor, mapa_img, desnivel_img } = data
+const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, color, bgcolor, mapa_img, desnivel_img } = data
 
 const { Content } = await render(ruta)
 ---
@@ -40,14 +40,17 @@ const { Content } = await render(ruta)
                 <h1 class="font-bold text-3xl my-4">{titulo}</h1>
                 <span class=`${bgcolor} rounded-2xl h-10 p-2 font-medium`>{dificultad}</span>
             </div>
-            <section class="mx-8 bg-white bg-opacity-40 p-4 flex rounded-xl border-black border-opacity-30 border-2">
+            <section class="mx-8 bg-white bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-6 border-black border-opacity-30 border-2">
                 <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg"><span class="flex flex-col mx-2">Destino<b>{destino}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg"><span class="flex flex-col mx-2">Distancia<b>{distancia}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg"><span class="flex flex-col mx-2">Desnivel<b>{desnivel}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg"><span class="flex flex-col mx-2">Altitud Máx<b>{alt_max}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg"><span class="flex flex-col mx-2">Altitud Mín<b>{alt_min}</b></span></span>
             </section>
-            
+            <section class="felx flex-wrap">
+                <a href=`Rutas/${gpx}` class="bg-[#141414] text-lg text-white px-4 py-2 rounded-xl hover:bg-black transition" download={gpx}>Descargar GPX</a>
+                <a href={wikiloc} class="bg-green-300 rounded-xl ml-4 text-lg py-2 px-4 hover:bg-page-300 transition" target="_blank">Ver en <span class="text-green-900 font-bold">Wikiloc</span></a>
+            </section>
             <p class="mt-8"><Content /></p>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
         </div>
