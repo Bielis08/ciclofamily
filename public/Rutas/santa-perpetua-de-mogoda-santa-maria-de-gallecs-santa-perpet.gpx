@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="Wikiloc - https://www.wikiloc.com" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Wikiloc - Santa Perpètua de Mogoda - Santa Maria de Gallecs - Santa Perpètua de Mogoda</name>
+    <author>
+      <name>Ciclo Family</name>
+      <link href="https://www.wikiloc.com/wikiloc/user.do?id=3811112">
+        <text>Ciclo Family on Wikiloc</text>
+      </link>
+    </author>
+    <link href="https://www.wikiloc.com/mountain-biking-trails/santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda-70906809">
+      <text>Santa Perpètua de Mogoda - Santa Maria de Gallecs - Santa Perpètua de Mogoda on Wikiloc</text>
+    </link>
+    <time>2020-06-04T12:22:38Z</time>
+  </metadata>
+  <trk>
+    <name>Santa Perpètua de Mogoda - Santa Maria de Gallecs - Santa Perpètua de Mogoda</name>
+    <cmt>Una iglesia románica encantadora y una tienda al lado (agrobotiga), donde encontraréis productos ecológicos de proximidad. Esta ruta&amp;nbsp;transcurre entre campos de cultivo del paraje natural de Gallecs.</cmt>
+    <desc>Una iglesia románica encantadora y una tienda al lado (agrobotiga), donde encontraréis productos ecológicos de proximidad. Esta ruta&amp;nbsp;transcurre entre campos de cultivo del paraje natural de Gallecs.</desc>
+    <trkseg>
+      <trkpt lat="41.530558" lon="2.190091">
+        <ele>63.056</ele>
+        <time>2020-06-04T12:22:38Z</time>
+      </trkpt>
+      <trkpt lat="41.530961" lon="2.191762">
+        <ele>61.759</ele>
+        <time>2020-06-04T12:55:48Z</time>
+      </trkpt>
+      <trkpt lat="41.529340" lon="2.194905">
+        <ele>62.014</ele>
+        <time>2020-06-04T12:19:55Z</time>
+      </trkpt>
+      <trkpt lat="41.530212" lon="2.196495">
+        <ele>69.508</ele>
+        <time>2020-06-04T12:18:41Z</time>
+      </trkpt>
+      <trkpt lat="41.531359" lon="2.200094">
+        <ele>75.752</ele>
+        <time>2020-06-04T12:14:50Z</time>
+      </trkpt>
+      <trkpt lat="41.536392" lon="2.195192">
+        <ele>79.325</ele>
+        <time>2020-06-04T12:14:15Z</time>
+      </trkpt>
+      <trkpt lat="41.537369" lon="2.200721">
+        <ele>90.984</ele>
+        <time>2020-06-04T12:13:45Z</time>
+      </trkpt>
+      <trkpt lat="41.544996" lon="2.198575">
+        <ele>99.685</ele>
+        <time>2020-06-04T12:57:09Z</time>
+      </trkpt>
+      <trkpt lat="41.557385" lon="2.189777">
+        <ele>121.741</ele>
+        <time>2020-06-04T12:57:23Z</time>
+      </trkpt>
+      <trkpt lat="41.559705" lon="2.194181">
+        <ele>105.943</ele>
+        <time>2020-06-04T12:57:42Z</time>
+      </trkpt>
+      <trkpt lat="41.562406" lon="2.193038">
+        <ele>107.385</ele>
+        <time>2020-06-04T12:09:31Z</time>
+      </trkpt>
+      <trkpt lat="41.562838" lon="2.196095">
+        <ele>101.224</ele>
+        <time>2020-06-04T12:57:50Z</time>
+      </trkpt>
+      <trkpt lat="41.562878" lon="2.196482">
+        <ele>100.556</ele>
+        <time>2020-06-04T12:57:54Z</time>
+      </trkpt>
+      <trkpt lat="41.561972" lon="2.196842">
+        <ele>103.059</ele>
+        <time>2020-06-04T12:58:04Z</time>
+      </trkpt>
+      <trkpt lat="41.557696" lon="2.198644">
+        <ele>91.314</ele>
+        <time>2020-06-04T12:58:11Z</time>
+      </trkpt>
+      <trkpt lat="41.556498" lon="2.200028">
+        <ele>92.408</ele>
+        <time>2020-06-04T12:58:26Z</time>
+      </trkpt>
+      <trkpt lat="41.554735" lon="2.199798">
+        <ele>88.032</ele>
+        <time>2020-06-04T12:58:41Z</time>
+      </trkpt>
+      <trkpt lat="41.551847" lon="2.202654">
+        <ele>80.645</ele>
+        <time>2020-06-04T12:58:47Z</time>
+      </trkpt>
+      <trkpt lat="41.549526" lon="2.202745">
+        <ele>78.514</ele>
+        <time>2020-06-04T12:58:53Z</time>
+      </trkpt>
+      <trkpt lat="41.547268" lon="2.197656">
+        <ele>100.445</ele>
+        <time>2020-06-04T12:59:05Z</time>
+      </trkpt>
+      <trkpt lat="41.546354" lon="2.195211">
+        <ele>107.531</ele>
+        <time>2020-06-04T12:59:14Z</time>
+      </trkpt>
+      <trkpt lat="41.545827" lon="2.196094">
+        <ele>103.993</ele>
+        <time>2020-06-04T12:59:24Z</time>
+      </trkpt>
+      <trkpt lat="41.544481" lon="2.198926">
+        <ele>107.315</ele>
+        <time>2020-06-04T12:59:29Z</time>
+      </trkpt>
+      <trkpt lat="41.537369" lon="2.200721">
+        <ele>90.874</ele>
+        <time>2020-06-04T12:59:39Z</time>
+      </trkpt>
+      <trkpt lat="41.536989" lon="2.196085">
+        <ele>84.535</ele>
+        <time>2020-06-04T12:59:45Z</time>
+      </trkpt>
+      <trkpt lat="41.533513" lon="2.195761">
+        <ele>74.386</ele>
+        <time>2020-06-04T12:59:50Z</time>
+      </trkpt>
+      <trkpt lat="41.530385" lon="2.198010">
+        <ele>70.314</ele>
+        <time>2020-06-04T13:00:01Z</time>
+      </trkpt>
+      <trkpt lat="41.529340" lon="2.194905">
+        <ele>62.008</ele>
+        <time>2020-06-04T12:19:55Z</time>
+      </trkpt>
+      <trkpt lat="41.528771" lon="2.193530">
+        <ele>59.120</ele>
+        <time>2020-06-04T12:19:57Z</time>
+      </trkpt>
+      <trkpt lat="41.530835" lon="2.191928">
+        <ele>60.143</ele>
+        <time>2020-06-04T13:00:18Z</time>
+      </trkpt>
+      <trkpt lat="41.530558" lon="2.190091">
+        <ele>63.122</ele>
+        <time>2020-06-04T12:22:38Z</time>
+      </trkpt>
+    </trkseg>
+  </trk></gpx>

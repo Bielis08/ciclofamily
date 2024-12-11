@@ -10,6 +10,8 @@ const rutas = defineCollection({
         desnivel: z.number(),
         alt_max: z.number(),
         alt_min: z.number(),
+        gpx: z.string(),
+        wikiloc: z.string(),
         dificultad: z.string(),
         color: z.string(),
         bgcolor: z.string(),

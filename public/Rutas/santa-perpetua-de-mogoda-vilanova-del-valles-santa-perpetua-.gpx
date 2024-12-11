@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="Wikiloc - https://www.wikiloc.com" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Wikiloc - Santa Perpètua de Mogoda - Vilanova del Vallès - Santa Perpètua de Mogoda</name>
+    <author>
+      <name>Ciclo Family</name>
+      <link href="https://www.wikiloc.com/wikiloc/user.do?id=3811112">
+        <text>Ciclo Family on Wikiloc</text>
+      </link>
+    </author>
+    <link href="https://www.wikiloc.com/mountain-biking-trails/santa-perpetua-de-mogoda-vilanova-del-valles-santa-perpetua-de-mogoda-70907524">
+      <text>Santa Perpètua de Mogoda - Vilanova del Vallès - Santa Perpètua de Mogoda on Wikiloc</text>
+    </link>
+    <time>2020-06-06T15:43:12Z</time>
+  </metadata>
+  <trk>
+    <name>Santa Perpètua de Mogoda - Vilanova del Vallès - Santa Perpètua de Mogoda</name>
+    <cmt>Una ruta plana y segura para hacer con toda la familia,&amp;nbsp;siguiendo el curso de los ríos Besós y Mogent. El tramo entre la Llagosta y Mollet es algo más técnico, pero el resto es pista sin ningún tipo de dificultad.</cmt>
+    <desc>Una ruta plana y segura para hacer con toda la familia,&amp;nbsp;siguiendo el curso de los ríos Besós y Mogent. El tramo entre la Llagosta y Mollet es algo más técnico, pero el resto es pista sin ningún tipo de dificultad.</desc>
+    <trkseg>
+      <trkpt lat="41.520832" lon="2.184144">
+        <ele>60.048</ele>
+        <time>2020-06-06T15:39:38Z</time>
+      </trkpt>
+      <trkpt lat="41.522173" lon="2.183179">
+        <ele>64.861</ele>
+        <time>2020-06-06T15:39:41Z</time>
+      </trkpt>
+      <trkpt lat="41.522701" lon="2.181763">
+        <ele>64.517</ele>
+        <time>2020-06-06T15:39:45Z</time>
+      </trkpt>
+      <trkpt lat="41.523128" lon="2.179091">
+        <ele>63.808</ele>
+        <time>2020-06-06T15:39:52Z</time>
+      </trkpt>
+      <trkpt lat="41.518433" lon="2.180082">
+        <ele>61.041</ele>
+        <time>2020-06-06T15:39:57Z</time>
+      </trkpt>
+      <trkpt lat="41.513643" lon="2.182192">
+        <ele>67.234</ele>
+        <time>2020-06-06T15:40:04Z</time>
+      </trkpt>
+      <trkpt lat="41.510639" lon="2.191365">
+        <ele>49.043</ele>
+        <time>2020-06-06T15:40:10Z</time>
+      </trkpt>
+      <trkpt lat="41.511047" lon="2.191579">
+        <ele>51.294</ele>
+        <time>2020-06-06T15:40:24Z</time>
+      </trkpt>
+      <trkpt lat="41.510435" lon="2.192491">
+        <ele>52.551</ele>
+        <time>2020-06-06T15:40:26Z</time>
+      </trkpt>
+      <trkpt lat="41.510843" lon="2.192770">
+        <ele>55.059</ele>
+        <time>2020-06-06T15:40:28Z</time>
+      </trkpt>
+      <trkpt lat="41.510650" lon="2.193360">
+        <ele>52.366</ele>
+        <time>2020-06-06T15:40:30Z</time>
+      </trkpt>
+      <trkpt lat="41.511058" lon="2.193639">
+        <ele>52.128</ele>
+        <time>2020-06-06T15:40:31Z</time>
+      </trkpt>
+      <trkpt lat="41.510532" lon="2.194616">
+        <ele>54.968</ele>
+        <time>2020-06-06T15:40:33Z</time>
+      </trkpt>
+      <trkpt lat="41.510092" lon="2.195442">
+        <ele>53.342</ele>
+        <time>2020-06-06T15:40:35Z</time>
+      </trkpt>
+      <trkpt lat="41.507121" lon="2.194618">
+        <ele>46.926</ele>
+        <time>2020-06-06T15:40:43Z</time>
+      </trkpt>
+      <trkpt lat="41.506122" lon="2.195892">
+        <ele>42.608</ele>
+        <time>2020-06-06T15:40:55Z</time>
+      </trkpt>
+      <trkpt lat="41.504738" lon="2.197665">
+        <ele>41.473</ele>
+        <time>2020-06-06T15:40:58Z</time>
+      </trkpt>
+      <trkpt lat="41.505479" lon="2.198864">
+        <ele>41.416</ele>
+        <time>2020-06-06T15:41:01Z</time>
+      </trkpt>
+      <trkpt lat="41.508624" lon="2.202466">
+        <ele>46.775</ele>
+        <time>2020-06-06T15:41:05Z</time>
+      </trkpt>
+      <trkpt lat="41.506873" lon="2.206857">
+        <ele>37.946</ele>
+        <time>2020-06-06T15:41:08Z</time>
+      </trkpt>
+      <trkpt lat="41.509720" lon="2.209584">
+        <ele>43.433</ele>
+        <time>2020-06-06T15:41:14Z</time>
+      </trkpt>
+      <trkpt lat="41.515883" lon="2.212954">
+        <ele>48.451</ele>
+        <time>2020-06-06T15:41:19Z</time>
+      </trkpt>
+      <trkpt lat="41.522769" lon="2.215734">
+        <ele>47.618</ele>
+        <time>2020-06-06T15:41:26Z</time>
+      </trkpt>
+      <trkpt lat="41.525609" lon="2.218026">
+        <ele>48.340</ele>
+        <time>2020-06-06T15:41:29Z</time>
+      </trkpt>
+      <trkpt lat="41.530852" lon="2.221182">
+        <ele>57.839</ele>
+        <time>2020-06-06T15:41:36Z</time>
+      </trkpt>
+      <trkpt lat="41.532531" lon="2.222861">
+        <ele>57.601</ele>
+        <time>2020-06-06T15:41:55Z</time>
+      </trkpt>
+      <trkpt lat="41.540986" lon="2.231718">
+        <ele>66.921</ele>
+        <time>2020-06-06T15:42:04Z</time>
+      </trkpt>
+      <trkpt lat="41.545095" lon="2.241660">
+        <ele>65.808</ele>
+        <time>2020-06-06T15:42:33Z</time>
+      </trkpt>
+      <trkpt lat="41.546192" lon="2.250974">
+        <ele>80.210</ele>
+        <time>2020-06-06T15:42:39Z</time>
+      </trkpt>
+      <trkpt lat="41.545171" lon="2.262133">
+        <ele>80.493</ele>
+        <time>2020-06-06T15:42:46Z</time>
+      </trkpt>
+      <trkpt lat="41.546973" lon="2.266268">
+        <ele>78.872</ele>
+        <time>2020-06-06T15:42:52Z</time>
+      </trkpt>
+      <trkpt lat="41.548748" lon="2.267818">
+        <ele>84.543</ele>
+        <time>2020-06-06T15:42:55Z</time>
+      </trkpt>
+      <trkpt lat="41.551870" lon="2.269715">
+        <ele>85.120</ele>
+        <time>2020-06-06T15:43:00Z</time>
+      </trkpt>
+      <trkpt lat="41.554300" lon="2.275648">
+        <ele>82.228</ele>
+        <time>2020-06-06T15:43:04Z</time>
+      </trkpt>
+      <trkpt lat="41.554858" lon="2.280319">
+        <ele>83.585</ele>
+        <time>2020-06-06T15:43:09Z</time>
+      </trkpt>
+      <trkpt lat="41.555695" lon="2.282243">
+        <ele>86.527</ele>
+        <time>2020-06-06T15:43:12Z</time>
+      </trkpt>
+    </trkseg>
+  </trk></gpx>

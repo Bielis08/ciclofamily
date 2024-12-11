@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="Wikiloc - https://www.wikiloc.com" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Wikiloc - Santa Perpètua de Mogoda - Torre Marimón - Santa Perpètua de Mogoda</name>
+    <author>
+      <name>Ciclo Family</name>
+      <link href="https://www.wikiloc.com/wikiloc/user.do?id=3811112">
+        <text>Ciclo Family on Wikiloc</text>
+      </link>
+    </author>
+    <link href="https://www.wikiloc.com/mountain-biking-trails/santa-perpetua-de-mogoda-torre-marimon-santa-perpetua-de-mogoda-70907270">
+      <text>Santa Perpètua de Mogoda - Torre Marimón - Santa Perpètua de Mogoda on Wikiloc</text>
+    </link>
+    <time>2020-06-09T13:40:06Z</time>
+  </metadata>
+  <trk>
+    <name>Santa Perpètua de Mogoda - Torre Marimón - Santa Perpètua de Mogoda</name>
+    <cmt>Ruta idéntica a la de Caldes de Montbui, pero en el Km 8.7 tendréis que desviaros a la izquierda y subir una pequeña pendiente hasta llegar a una masía que os quedará a mano derecha. Después todo recto se llega a Torre Marimón. El último tramo es carretera con poco tráfico.</cmt>
+    <desc>Ruta idéntica a la de Caldes de Montbui, pero en el Km 8.7 tendréis que desviaros a la izquierda y subir una pequeña pendiente hasta llegar a una masía que os quedará a mano derecha. Después todo recto se llega a Torre Marimón. El último tramo es carretera con poco tráfico.</desc>
+    <trkseg>
+      <trkpt lat="41.530156" lon="2.190191">
+        <ele>63.648</ele>
+        <time>2020-06-09T13:35:11Z</time>
+      </trkpt>
+      <trkpt lat="41.530557" lon="2.190088">
+        <ele>63.061</ele>
+        <time>2020-06-09T13:35:23Z</time>
+      </trkpt>
+      <trkpt lat="41.530838" lon="2.191244">
+        <ele>61.017</ele>
+        <time>2020-06-09T13:35:25Z</time>
+      </trkpt>
+      <trkpt lat="41.534461" lon="2.187382">
+        <ele>65.508</ele>
+        <time>2020-06-09T13:35:34Z</time>
+      </trkpt>
+      <trkpt lat="41.536060" lon="2.185573">
+        <ele>67.651</ele>
+        <time>2020-06-09T13:35:39Z</time>
+      </trkpt>
+      <trkpt lat="41.536721" lon="2.184912">
+        <ele>70.594</ele>
+        <time>2020-06-09T13:35:41Z</time>
+      </trkpt>
+      <trkpt lat="41.585484" lon="2.173437">
+        <ele>123.723</ele>
+        <time>2020-06-09T13:35:55Z</time>
+      </trkpt>
+      <trkpt lat="41.585305" lon="2.172537">
+        <ele>124.844</ele>
+        <time>2020-06-09T13:36:12Z</time>
+      </trkpt>
+      <trkpt lat="41.592640" lon="2.171174">
+        <ele>137.691</ele>
+        <time>2020-06-09T13:36:19Z</time>
+      </trkpt>
+      <trkpt lat="41.594253" lon="2.172276">
+        <ele>133.126</ele>
+        <time>2020-06-09T13:36:22Z</time>
+      </trkpt>
+      <trkpt lat="41.596074" lon="2.173168">
+        <ele>135.741</ele>
+        <time>2020-06-09T13:36:27Z</time>
+      </trkpt>
+      <trkpt lat="41.597578" lon="2.172976">
+        <ele>140.524</ele>
+        <time>2020-06-09T13:36:29Z</time>
+      </trkpt>
+      <trkpt lat="41.601072" lon="2.172252">
+        <ele>144.361</ele>
+        <time>2020-06-09T13:36:36Z</time>
+      </trkpt>
+      <trkpt lat="41.602981" lon="2.169761">
+        <ele>165.021</ele>
+        <time>2020-06-09T13:36:45Z</time>
+      </trkpt>
+      <trkpt lat="41.603406" lon="2.169761">
+        <ele>166.413</ele>
+        <time>2020-06-09T13:36:49Z</time>
+      </trkpt>
+      <trkpt lat="41.604002" lon="2.169280">
+        <ele>168.708</ele>
+        <time>2020-06-09T13:36:56Z</time>
+      </trkpt>
+      <trkpt lat="41.604920" lon="2.169447">
+        <ele>168.993</ele>
+        <time>2020-06-09T13:37:00Z</time>
+      </trkpt>
+      <trkpt lat="41.606916" lon="2.169066">
+        <ele>173.876</ele>
+        <time>2020-06-09T13:37:04Z</time>
+      </trkpt>
+      <trkpt lat="41.609664" lon="2.169791">
+        <ele>171.595</ele>
+        <time>2020-06-09T13:37:10Z</time>
+      </trkpt>
+      <trkpt lat="41.613366" lon="2.168852">
+        <ele>178.036</ele>
+        <time>2020-06-09T13:37:25Z</time>
+      </trkpt>
+      <trkpt lat="41.613316" lon="2.169233">
+        <ele>179.373</ele>
+        <time>2020-06-09T13:37:33Z</time>
+      </trkpt>
+      <trkpt lat="41.613316" lon="2.169233">
+        <ele>179.378</ele>
+        <time>2020-06-09T13:38:13Z</time>
+      </trkpt>
+      <trkpt lat="41.613366" lon="2.168852">
+        <ele>178.133</ele>
+        <time>2020-06-09T13:38:16Z</time>
+      </trkpt>
+      <trkpt lat="41.609664" lon="2.169791">
+        <ele>171.666</ele>
+        <time>2020-06-09T13:38:22Z</time>
+      </trkpt>
+      <trkpt lat="41.606916" lon="2.169066">
+        <ele>173.951</ele>
+        <time>2020-06-09T13:38:24Z</time>
+      </trkpt>
+      <trkpt lat="41.604920" lon="2.169447">
+        <ele>169.001</ele>
+        <time>2020-06-09T13:38:28Z</time>
+      </trkpt>
+      <trkpt lat="41.604002" lon="2.169280">
+        <ele>168.811</ele>
+        <time>2020-06-09T13:38:30Z</time>
+      </trkpt>
+      <trkpt lat="41.602981" lon="2.169761">
+        <ele>165.108</ele>
+        <time>2020-06-09T13:38:32Z</time>
+      </trkpt>
+      <trkpt lat="41.601072" lon="2.172252">
+        <ele>144.452</ele>
+        <time>2020-06-09T13:38:35Z</time>
+      </trkpt>
+      <trkpt lat="41.597578" lon="2.172976">
+        <ele>140.635</ele>
+        <time>2020-06-09T13:38:39Z</time>
+      </trkpt>
+      <trkpt lat="41.596074" lon="2.173168">
+        <ele>135.894</ele>
+        <time>2020-06-09T13:38:44Z</time>
+      </trkpt>
+      <trkpt lat="41.594253" lon="2.172276">
+        <ele>133.225</ele>
+        <time>2020-06-09T13:38:47Z</time>
+      </trkpt>
+      <trkpt lat="41.589454" lon="2.171078">
+        <ele>132.192</ele>
+        <time>2020-06-09T13:38:50Z</time>
+      </trkpt>
+      <trkpt lat="41.585484" lon="2.173437">
+        <ele>123.887</ele>
+        <time>2020-06-09T13:38:58Z</time>
+      </trkpt>
+      <trkpt lat="41.536721" lon="2.184912">
+        <ele>70.632</ele>
+        <time>2020-06-09T13:39:30Z</time>
+      </trkpt>
+      <trkpt lat="41.536060" lon="2.185573">
+        <ele>67.765</ele>
+        <time>2020-06-09T13:39:45Z</time>
+      </trkpt>
+      <trkpt lat="41.534461" lon="2.187382">
+        <ele>65.694</ele>
+        <time>2020-06-09T13:39:52Z</time>
+      </trkpt>
+      <trkpt lat="41.531095" lon="2.191068">
+        <ele>62.657</ele>
+        <time>2020-06-09T13:39:56Z</time>
+      </trkpt>
+      <trkpt lat="41.531095" lon="2.191068">
+        <ele>62.622</ele>
+        <time>2020-06-09T13:39:58Z</time>
+      </trkpt>
+      <trkpt lat="41.530156" lon="2.190191">
+        <ele>63.608</ele>
+        <time>2020-06-09T13:40:00Z</time>
+      </trkpt>
+      <trkpt lat="41.530156" lon="2.190191">
+        <ele>63.696</ele>
+        <time>2020-06-09T13:40:06Z</time>
+      </trkpt>
+    </trkseg>
+  </trk></gpx>
