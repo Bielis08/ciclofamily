@@ -7,7 +7,7 @@ const rutas = await getCollection('rutas');
 <section>
     <h2 class="text-3xl text-center mt-20 lg:my-20 font-bold text-lime-900">Rutas</h2>
     <Buscador class="h-10 w-48 md:w-96" />
-    <section class="flex flex-wrap justify-center mx-2 gap-8 mt-24">
+    <section class="flex flex-wrap justify-center mx-4 gap-8 mt-24">
         {
             rutas.map(ruta => {
                 const { slug, data } = ruta
