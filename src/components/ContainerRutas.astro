@@ -6,14 +6,14 @@ const rutas = await getCollection('rutas');
 
 <section>
     <Buscador class="h-10 w-48 md:w-96" />
-    <section class="flex flex-wrap justify-center gap-12 mt-24">
+    <section class="flex flex-wrap justify-center gap-8 mt-24">
         {
             rutas.map(ruta => {
                 const { slug, data } = ruta
                 const { url, portada, titulo, destino, color, distancia, dificultad, alt_max } = data
 
                 return (
-                    <a href={url} class="max-w-96 mx-6 h-fit rounded-xl bg-white hover:scale-105 transition">
+                    <a href={url} class="max-w-96 h-fit rounded-xl bg-white hover:scale-105 transition">
                         <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
                             <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>

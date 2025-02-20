@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 const rutas = await getCollection('rutas');
+const rutasDestacadas = rutas.slice(0, 3);
 ---
 <section class="mt-28">
     <h2 class="text-3xl text-center mb-20 font-bold text-lime-900">Rutas Destacadas</h2>
     <section class="flex text-pretty flex-wrap justify-center gap-8 mt-12 mb-16 mx-4">
         {
-            rutas.map(ruta => {
+            rutasDestacadas.map(ruta => {
                 const { slug, data } = ruta
                 const { url, portada, titulo, destino, color, distancia, dificultad, alt_max } = data
 
