@@ -48,7 +48,7 @@ const { Content } = await render(ruta)
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg"><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
             </section>
             <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
-                <a href=`Rutas/${gpx}` class="bg-[#141414] text-white px-4 py-2 rounded-xl hover:bg-black transition" download={gpx}>Descargar GPX</a>
+                <a href={`https://github.com/Bielis08/rutas-ciclofamily/blob/main/${gpx}`} class="bg-[#141414] text-white px-4 py-2 rounded-xl hover:bg-black transition flex" target="_blank" rel="noopener noreferrer"><img class="mr-2" src="/public/icons/github.svg" alt="Logo de Github">Descargar GPX</a>
                 <a href={wikiloc} class="bg-green-300 rounded-xl py-2 px-4 hover:bg-page-300 transition" target="_blank">Ver en <span class="text-green-900 font-bold">Wikiloc</span></a>
             </section>
             <p class="mt-8"><Content /></p>
