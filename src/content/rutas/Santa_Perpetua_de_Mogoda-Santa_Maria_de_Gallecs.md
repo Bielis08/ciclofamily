@@ -1,7 +1,7 @@
 ---
 titulo: Santa Perpètua de Mogoda - Santa Maria de Gallecs
 url: /rutas/santa_perpetua_de_mogoda-santa_maria_de_gallecs
-portada: \Rutas\Santa Perpetua de Mogoda - Santa Maria de Gallecs\Santa_Maria_de_Gallecs_18.JPG
+portada: \Rutas\Santa Perpètua de Mogoda - Santa Maria de Gallecs\Santa_Maria_de_Gallecs_18.JPG
 destino: Santa Maria de Gallecs
 distancia: 13
 desnivel: 86
