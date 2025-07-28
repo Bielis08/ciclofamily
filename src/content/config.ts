@@ -15,8 +15,6 @@ const rutas = defineCollection({
         dificultad: z.string(),
         color: z.string(),
         bgcolor: z.string(),
-        mapa_img: z.string(),
-        desnivel_img: z.string()
     })
 })
 

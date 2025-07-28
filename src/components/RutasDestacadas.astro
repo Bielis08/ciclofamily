@@ -4,7 +4,11 @@ const rutas = await getCollection('rutas');
 const rutasDestacadas = rutas.slice(0, 3);
 ---
 <section class="mt-28">
+    
     <h2 class="text-3xl text-center mb-20 font-bold text-lime-900">Rutas Destacadas</h2>
+    <div class="relative w-full text-center">
+        <a href="/rutas" class="underline hover:text-gray-700 -mt-30 md:absolute right-12 -top-28 transition">Ver mas rutas ⇾</a>
+    </div>
     <section class="flex text-pretty flex-wrap justify-center gap-8 mt-12 mb-16 mx-4">
         {
             rutasDestacadas.map(ruta => {
