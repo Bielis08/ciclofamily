@@ -1,7 +1,7 @@
 ---
 titulo: Santa Perpètua de Mogoda - Guanta
 url: /rutas/santa_perpetua_de_mogoda-guanta
-portada: /Rutas/Guanta_1.png
+portada: /Rutas/Santa Perpètua de Mogoda - Guanta/Guanta_1.png
 destino: Guanta
 distancia: 39.23
 desnivel: 567
@@ -12,7 +12,5 @@ wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-gua
 dificultad: Moderada
 color: text-orange-600
 bgcolor: bg-orange-400
-mapa_img: /Rutas/Guanta_mapa.png
-desnivel_img: /Rutas/Guanta_desnivel.png
 ---
 

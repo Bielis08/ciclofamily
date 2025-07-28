@@ -1,7 +1,7 @@
 ---
 titulo: Santa Perpètua de Mogoda - Santa Maria de Gallecs
 url: /rutas/santa_perpetua_de_mogoda-santa_maria_de_gallecs
-portada: \Rutas\Santa Perpetua de Mogoda - Santa Maria de Gallecs\Santa_Maria_de_Gallecs_18.JPG
+portada: \Rutas\Santa Perpètua de Mogoda - Santa Maria de Gallecs\Santa_Maria_de_Gallecs_18.JPG
 destino: Santa Maria de Gallecs
 distancia: 13
 desnivel: 86
@@ -12,8 +12,6 @@ wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-san
 dificultad: Fácil
 color: text-green-600
 bgcolor: bg-green-400
-mapa_img: /Rutas/Santa_Maria_de_Gallecs_mapa.png
-desnivel_img: /Rutas/Santa_Maria_de_Gallecs_desnivel.png
 ---
 
 **Una iglesia románica encantadora** y una tienda al lado (agrobotiga), donde encontraréis productos ecológicos de proximidad.
