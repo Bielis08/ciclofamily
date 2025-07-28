@@ -1,24 +1,31 @@
 ---
 import { getCollection, render } from "astro:content";
+import { getRutaImages } from "../../utils/getRutaImages"; // importa tu función
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import MiniHeader from "../../components/MiniHeader.astro";
 
 export async function getStaticPaths() {
-    const rutas = await getCollection('rutas')
-    
-    return rutas.map((ruta) => ({
-        params: { id: ruta.slug },
-        props: { ruta }
-    }))
+  const rutas = await getCollection('rutas');
+
+  return rutas.map((ruta) => {
+    const titulo = ruta.data.titulo;
+    const images = getRutaImages(titulo);
+
+    return {
+      params: { id: ruta.slug },
+      props: { ruta, images },
+    };
+  });
 }
 
-const { ruta } = Astro.props
+const { ruta, images } = Astro.props
 const { data } = ruta
 const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, color, bgcolor } = data
 
-const { Content } = await render(ruta)
+const { Content } = await render(ruta);
 ---
+
 <Layout title={titulo}>
     <title>Ruta en bicicleta: {titulo}</title>
     <meta name="description" content={`Descubre la ruta en bicicleta ${titulo}. Una actividad perfecta para explorar ${destino} con una distancia de ${distancia} km y un desnivel de ${desnivel} m.`} />
@@ -53,7 +60,26 @@ const { Content } = await render(ruta)
             </section>
             <p class="mt-8"><Content /></p>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
+            <iframe class="mx-auto rounded-xl w-[75%] sm:w-[80%] md:w-[90%]" src=`https://gpx.studio/embed?options=%7B%22token%22%3A%22YOUR_MAPBOX_TOKEN%22%2C%22files%22%3A%5B%22https%3A%2F%2Fraw.githubusercontent.com%2FBielis08%2Frutas-ciclofamily%2Fmain%2F${gpx}%22%5D%2C%22basemap%22%3A%22openStreetMap%22%2C%22elevation%22%3A%7B%22fill%22%3A%22slope%22%7D%2C%22distanceMarkers%22%3Atrue%2C%22directionMarkers%22%3Atrue%2C%22theme%22%3A%22light%22%7D` width="100%" height="600px" frameborder="0" style="outline: none;"/>
+            <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
+            {images.length > 0 ? (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
+                {images.map((img) => (
+                <a href={img} target="_blank" rel="noopener noreferrer">
+                    <img
+                    src={img}
+                    alt={`Imagen de la ruta ${titulo}`}
+                    class="rounded-xl object-cover w-full h-64 md:hover:scale-150 transition"
+                    loading="lazy"
+                    />
+                </a>
+                ))}
+            </div>
+            ) : (
+            <p class="text-center text-lg text-gray-600 italic my-6">
+                No hay fotos disponibles para esta ruta.
+            </p>
+            )}
         </div>
-        <iframe class="mx-auto rounded-xl w-[80%] md:w-[90%]" src=`https://gpx.studio/embed?options=%7B%22token%22%3A%22YOUR_MAPBOX_TOKEN%22%2C%22files%22%3A%5B%22https%3A%2F%2Fraw.githubusercontent.com%2FBielis08%2Frutas-ciclofamily%2Fmain%2F${gpx}%22%5D%2C%22basemap%22%3A%22openStreetMap%22%2C%22elevation%22%3A%7B%22fill%22%3A%22slope%22%7D%2C%22distanceMarkers%22%3Atrue%2C%22directionMarkers%22%3Atrue%2C%22theme%22%3A%22light%22%7D` width="100%" height="600px" frameborder="0" style="outline: none;"/>
     </main>
 </Layout>
