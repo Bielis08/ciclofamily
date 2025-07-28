@@ -1,6 +1,6 @@
 ---
 import ContainerRutas from "../components/ContainerRutas.astro";
-import Header from "../components/Header.astro";
+import MiniHeader from "../components/MiniHeader.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -16,8 +16,9 @@ import Layout from "../layouts/Layout.astro";
     <meta name="twitter:title" content="Ciclo Family | Todas las rutas en bicicleta por Catalunya" />
     <meta name="twitter:description" content="Encuentra la ruta perfecta para ti y tu familia con Ciclo Family." />
     <meta name="twitter:image" content="/images/rutas_portada.jpg" />
-    <Header />
+    <MiniHeader />
     <main class="max-w-7xl mx-auto">
+        <div class="h-1" />
         <ContainerRutas />
     </main>
 </Layout>
