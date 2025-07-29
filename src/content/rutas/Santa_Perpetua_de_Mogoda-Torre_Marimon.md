@@ -7,8 +7,8 @@ distancia: 22.09
 desnivel: 131
 alt_max: 180
 alt_min: 63
-gpx: santa-perpetua-de-mogoda-torre-marimon-santa-perpetua-de-mog.gpx
-wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-torre-marimon-santa-perpetua-de-mogoda-70907270
+gpx: santa-perpetua-de-mogoda-torre-marimon-santa-perpetua-de-mogoda.gpx
+wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-torre-marimon-santa-perpetua-de-mogoda-224082879
 dificultad: Fácil
 color: text-green-600
 bgcolor: bg-green-400

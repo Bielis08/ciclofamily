@@ -7,8 +7,8 @@ distancia: 13.33
 desnivel: 119
 alt_max: 133
 alt_min: 60
-gpx: santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpet.gpx
-wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda-70906809
+gpx: santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda.gpx
+wikiloc: https://es.wikiloc.com/rutas-gravel-bike/santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda-224075677
 dificultad: Fácil
 color: text-green-600
 bgcolor: bg-green-400
