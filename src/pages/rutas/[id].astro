@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import { getRutaImages } from "../../utils/getRutaImages"; // importa tu función
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
-import MiniHeader from "../../components/MiniHeader.astro";
+import Header from "../../components/Header.astro";
 
 export async function getStaticPaths() {
   const rutas = await getCollection('rutas');
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 
 const { ruta, images } = Astro.props
 const { data } = ruta
-const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, color, bgcolor } = data
+const { titulo, destino, portada, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad } = data
 
 const { Content } = await render(ruta);
 ---
@@ -38,16 +38,22 @@ const { Content } = await render(ruta);
     <meta name="twitter:title" content={`Ruta en bicicleta: ${titulo}`} />
     <meta name="twitter:description" content={`Explora ${titulo}, una ruta ideal para el ciclismo en ${destino}.`} />
     <meta name="twitter:image" content={portada} />
-    <MiniHeader />
+    <Header />
     <BtnRutas />
-    <main class="mx-auto sm:rounded-xl -mt-6 -mb-12 md:mt-6 md:mb-6 pb-8 max-w-[1200px] bg-page-300/30 bg-opacity-50">
+    <main class="mx-auto sm:rounded-xl -mt-8 -mb-12 md:mt-6 md:mb-6 pb-8 max-w-[1200px] bg-page-300/30 text-black bg-opacity-50">
         <img loading="lazy" class="w-full h-96 md:h-[600px] sm:rounded-t-xl top-0 object-cover" src={portada} alt=`Fotografía de ${titulo}`>
+        <!-- Se utiliza para engañar a tailwind y que se puedan cargar las clases siguinetes en el script -->
+        <div class="hidden">
+            bg-facil bg-moderada bg-dificil
+        </div>
+        <!-- Hasta aqui el engaño -->
+
         <div class="mx-8">
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <h1 class="font-bold text-2xl sm:text-3xl my-4">{titulo}</h1>
-                <span class=`${bgcolor} rounded-2xl h-10 p-2 font-medium`>{dificultad}</span>
+                <span id="dificultad" class='rounded-2xl h-10 p-2 font-medium'>{dificultad}</span>
             </div>
-            <section class="mx-0 sm:mx-8 bg-white bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-opacity-30 border-2">
+            <section class="mx-0 sm:mx-8 bg-page-600 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
                 <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg"><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg"><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg"><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
@@ -55,8 +61,8 @@ const { Content } = await render(ruta);
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg"><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
             </section>
             <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
-                <a href={`https://github.com/Bielis08/rutas-ciclofamily/blob/main/${gpx}`} class="bg-[#141414] text-white px-4 py-2 rounded-xl hover:bg-black transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
-                <a href={wikiloc} class="bg-green-300 rounded-xl py-2 px-4 hover:bg-page-300 transition" target="_blank">Ver en <span class="text-green-900 font-bold">Wikiloc</span></a>
+                <a href={`https://github.com/Bielis08/rutas-ciclofamily/blob/main/${gpx}`} class="bg-page-200 text-white px-4 py-2 rounded-lg hover:bg-page-200/85 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
+                <a href={wikiloc} class="bg-page-400 rounded-lg py-2 px-4 hover:bg-green-600/20 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc"></a>
             </section>
             <p class="mt-8"><Content /></p>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
@@ -83,3 +89,17 @@ const { Content } = await render(ruta);
         </div>
     </main>
 </Layout>
+
+<script>
+    const dificultad = document.getElementById('dificultad');
+    
+    if (dificultad?.textContent === 'Fácil') {
+        dificultad.classList.add('bg-facil')
+    }
+    if (dificultad?.textContent === 'Moderada') {
+        dificultad.classList.add('bg-moderada')
+    }
+    if (dificultad?.textContent === 'Difícil') {
+        dificultad.classList.add('bg-dificil')
+    }
+</script>

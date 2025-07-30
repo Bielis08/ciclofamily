@@ -10,8 +10,6 @@ alt_min: 60
 gpx: santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda.gpx
 wikiloc: https://es.wikiloc.com/rutas-gravel-bike/santa-perpetua-de-mogoda-santa-maria-de-gallecs-santa-perpetua-de-mogoda-224075677
 dificultad: Fácil
-color: text-green-600
-bgcolor: bg-green-400
 ---
 
 **Una iglesia románica encantadora** y una tienda al lado (agrobotiga), donde encontraréis productos ecológicos de proximidad.

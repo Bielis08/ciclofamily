@@ -10,7 +10,5 @@ alt_min: 57
 gpx: santa-perpetua-de-mogoda-guanta-santa-perpetua-de-mogoda.gpx
 wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-guanta-santa-perpetua-de-mogoda-184503081
 dificultad: Moderada
-color: text-orange-600
-bgcolor: bg-orange-400
 ---
 

@@ -10,8 +10,6 @@ alt_min: 63
 gpx: santa-perpetua-de-mogoda-caldes-de-montbui-santa-perpetua-de-mogoda.gpx
 wikiloc: https://es.wikiloc.com/rutas-mountain-bike/santa-perpetua-de-mogoda-caldes-de-montbui-santa-perpetua-de-mogoda-224084553
 dificultad: Fácil
-color: text-green-600
-bgcolor: bg-green-400
 ---
 
 Carril bici en gran parte de la ruta, siguiendo el curso de la **Riera de Caldes**. Una vez en Caldes, podéis acercaros a la **Plaça de la Vila**, donde se encuentra la famosa **Fuente del León** (el agua sale a unos 72 ºC).
