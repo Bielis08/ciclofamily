@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+    --color-page-100: #edffe9;
+    --color-page-200: #c7ffb5;
+    --color-page-300: #a1ff81;
+    --color-page-400: #9fffa9;
+    --color-page-500: #9dffd1;
+}

@@ -13,12 +13,12 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/markdown-remark": "6.3.3",
     "@astrojs/sitemap": "3.4.1",
-    "@astrojs/tailwind": "6.0.2",
     "@fontsource-variable/montserrat": "^5.1.0",
+    "@tailwindcss/vite": "^4.1.11",
     "@vercel/analytics": "^1.4.0",
     "@vercel/speed-insights": "^1.1.0",
     "astro": "5.12.3",
-    "tailwindcss": "^3.4.14",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.6.3"
   }
 }
