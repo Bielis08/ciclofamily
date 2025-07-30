@@ -5,11 +5,9 @@ import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import icons from 'astro-icons';
-
 // https://astro.build/config
 export default defineConfig({
-  integrations: [sitemap(), icons()],
+  integrations: [sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
