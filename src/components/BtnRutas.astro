@@ -1,11 +1,15 @@
+---
+import Volver from "../icons/Volver.astro";
+---
+
 <div class="max-w-[1500px] mx-auto px-2">
     <a href="/rutas" class="fixed hidden md:flex group items-center mt-4 justify-around bg-page-200 hover:bg-page-200/80 font-medium rounded-full text-xs md:text-sm px-2 py-1 transition">
-        <img class="size-6 md:size-8" src="/icons/volver.svg" alt="Icono para volver al inicio de la página">
-        <span class="w-0 opacity-0 group-hover:opacity-100 group-hover:w-24 overflow-hidden transition-all whitespace-nowrap ml-1">Volver a rutas</span>
+        <Volver class="size-6 md:size-8 stroke-page-500" />
+        <span class="w-0 opacity-0 text-page-500 font-medium group-hover:opacity-100 group-hover:w-24 overflow-hidden transition-all whitespace-nowrap ml-1">Volver a rutas</span>
     </a>
 </div>
 
 <a href="/rutas" class="fixed flex md:hidden items-center justify-around ml-4 -mt-2 bg-page-200 font-medium rounded-full text-xs md:text-sm px-2 py-1 mb-2 w-36 transition">
-    <img class="size-6 md:size-8" src="/icons/volver.svg" alt="Icono para volver al inicio de la página">
+    <Volver class="size-6 md:size-8 stroke-page-500" />
     <span class="w-24 whitespace-nowrap ml-2">Volver a rutas</span>
 </a>
