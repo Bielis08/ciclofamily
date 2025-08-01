@@ -79,7 +79,8 @@ if (dificultad === 'Difícil') {
             <iframe class="mx-auto rounded-xl w-[85%] md:w-[90%]" src=`https://gpx.studio/embed?options=%7B%22token%22%3A%22YOUR_MAPBOX_TOKEN%22%2C%22files%22%3A%5B%22https%3A%2F%2Fraw.githubusercontent.com%2FBielis08%2Frutas-ciclofamily%2Fmain%2F${gpx}%22%5D%2C%22basemap%22%3A%22openStreetMap%22%2C%22elevation%22%3A%7B%22fill%22%3A%22slope%22%7D%2C%22distanceMarkers%22%3Atrue%2C%22directionMarkers%22%3Atrue%2C%22theme%22%3A%22light%22%7D` width="100%" height="600px" frameborder="0" style="outline: none;"/>
             <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
             {images.length > 1 ? (
-            <Carrusel images={images} server:defer/>
+            // <Carrusel images={images} server:defer/>
+            <p>Hola</p>
             ) : (
             <p class="text-center text-lg text-gray-600 italic my-6">
                 No hay fotos disponibles para esta ruta. Estamos trabajando en ello.
