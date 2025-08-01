@@ -5,24 +5,33 @@ const rutasDestacadas = rutas.slice(0, 3);
 ---
 <section class="mt-28">
     
-    <h2 class="text-3xl text-center mb-20 font-bold text-lime-900">Rutas Destacadas</h2>
+    <h2 class="text-3xl text-center mb-20 font-bold text-page-400">Rutas Destacadas</h2>
     <div class="relative w-full text-center">
-        <a href="/rutas" class="underline hover:text-gray-700 -mt-30 md:absolute right-12 -top-28 transition">Ver mas rutas ⇾</a>
+        <a href="/rutas" class="underline text-black hover:text-gray-700 -mt-30 md:absolute right-12 transition">Ver mas rutas ⇾</a>
     </div>
     <section class="flex text-pretty flex-wrap justify-center gap-8 mt-12 mb-16 mx-4">
         {
             rutasDestacadas.map(ruta => {
                 const { slug, data } = ruta
-                const { url, portada, titulo, destino, color, distancia, dificultad, alt_max } = data
+                const { url, portada, titulo, destino, distancia, dificultad, alt_max } = data
+
+                let difucultadPunto = ""
+                if (dificultad === 'Fácil') {
+                    difucultadPunto = "/PuntosVerde.png"
+                } else if (dificultad === 'Moderada') {
+                    difucultadPunto = "/PuntosNaranja.png"
+                } else {
+                    difucultadPunto = "/PuntosRojo.png"
+                }
 
                 return (
-                    <article class="w-96 h-fit rounded-xl bg-white">
-                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
+                    <article class="w-96 h-fit rounded-xl text-black bg-page-500 border-2 border-dashed border-page-400 overflow-hidden">
+                        <img class="w-full h-52 top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
-                            <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>
-                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg" alt="">{destino}</span>
+                            <h1 class="text-xl font-bold my-4">{titulo}</h1>
+                            <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>
                             <section class="flex items-center justify-between my-4">
-                                <span class=' font-semibold'>Dificultad: <span class={color}>{dificultad}</span></span>
+                                <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={difucultadPunto}></span>
                                 <a href={url} class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
                             </section>
                         </div>

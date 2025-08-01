@@ -1,12 +1,17 @@
+---
+import Email from "../icons/email.astro";
+---
+
 <section class="py-6 mt-12 bg-[#141414] flex md:flex-row flex-col sm:gap-y-4 md:gap-y-8 justify-around items-center">
     <div class="text-center">
         <span class="text-white text-base md:text-xl">¿Tienes alguna duda?<br>¡Contacta con nosotros!</span>
     </div>
     <div class="flex justify-center">
-        <a class="my-8 md:my-0 w-60 xl:w-72 px-0 md:px-3 py-1 font-semibold text-lg lg:text-xl md:hover:scale-110 transition-all flex justify-center items-center bg-page-200 rounded-2xl" href="mailto:ciclofamilyinfo@gmail.com?subject=Consulta%20sobre%20Ciclofamily" target="_blank">Enviar Mensaje<img class="size-8 md:size-10 ml-2" src="/icons/mail.svg"></a>
+        
+        <a class="my-8 group md:my-0 w-60 xl:w-72 py-3 font-semibold text-lg lg:text-xl hover:bg-page-400 hover:text-white transition-all flex justify-center items-center bg-page-300 rounded-lg" href="mailto:ciclofamilyinfo@gmail.com?subject=Consulta%20sobre%20Ciclofamily" target="_blank">Enviar Mensaje<Email class="size-8 ml-2 stroke-black group-hover:stroke-white transition" /></a>
     </div>
     <div class="flex justify-center items-center text-white">
         <span class="text-base md:text-xl">Siguenos en</span>
-        <a class="ml-2 bg-page-200 px-2 py-1 rounded-xl hover:scale-110 transition-all" href="https://es.wikiloc.com/wikiloc/user.do?id=3811112" target="_blank"><img class="w-20 md:w-auto" src="/Wikiloc.png" alt="Logo de Wikiloc"></a>
+        <a class="ml-2 bg-page-400 hover:bg-page-400/40 px-2 py-1 rounded-xl transition-all" href="https://es.wikiloc.com/wikiloc/user.do?id=3811112" target="_blank"><img class="w-20 md:w-auto" src="/Wikiloc.png" alt="Logo de Wikiloc"></a>
     </div>
 </section>

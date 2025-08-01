@@ -13,8 +13,6 @@ const rutas = defineCollection({
         gpx: z.string(),
         wikiloc: z.string(),
         dificultad: z.string(),
-        color: z.string(),
-        bgcolor: z.string(),
     })
 })
 
