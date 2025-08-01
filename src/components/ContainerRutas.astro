@@ -5,7 +5,7 @@ const rutas = await getCollection('rutas');
 ---
 
 <section>
-    <h2 class="text-4xl text-center mt-20 lg:my-20 font-bold text-page-500">Rutas</h2>
+    <h2 class="text-4xl text-center mt-20 lg:my-20 font-bold text-page-400">Rutas</h2>
     <!-- <Buscador class="h-10 w-48 md:w-96" /> -->
     <section class="flex flex-wrap justify-center mx-4 gap-8 mt-24">
         {
@@ -22,11 +22,11 @@ const rutas = await getCollection('rutas');
                 }
 
                 return (
-                    <a href={url} class="max-w-96 h-fit rounded-xl bg-page-600 border-page-500 border-dashed border-2 hover:scale-105 transition text-black">
+                    <a href={url} class="max-w-96 h-fit rounded-xl bg-page-500 border-page-400 border-dashed border-2 hover:scale-105 transition text-black">
                         <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
                             <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>
-                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-300"><img class="size-5 mr-2" src="/icons/ubicacion.svg">{destino}</span>
+                            <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg">{destino}</span>
                             <section class="flex items-center justify-between my-4">
                                 <span class="flex"><img class="size-5 mr-1" src="/icons/ubicacion.svg"> Distancia: <span class="font-semibold flex ml-1">{distancia} Km</span></span>
                                 <span class="flex items-center"><img class="size-8 mr-2" src="/icons/dificultad.svg"><img class="h-5" src={difucultadPunto} alt=""></span>

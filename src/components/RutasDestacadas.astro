@@ -5,7 +5,7 @@ const rutasDestacadas = rutas.slice(0, 3);
 ---
 <section class="mt-28">
     
-    <h2 class="text-3xl text-center mb-20 font-bold text-page-500">Rutas Destacadas</h2>
+    <h2 class="text-3xl text-center mb-20 font-bold text-page-400">Rutas Destacadas</h2>
     <div class="relative w-full text-center">
         <a href="/rutas" class="underline text-black hover:text-gray-700 -mt-30 md:absolute right-12 transition">Ver mas rutas ⇾</a>
     </div>
@@ -25,14 +25,14 @@ const rutasDestacadas = rutas.slice(0, 3);
                 }
 
                 return (
-                    <article class="w-96 h-fit rounded-xl text-black bg-page-600 border-2 border-dashed border-page-500 overflow-hidden">
+                    <article class="w-96 h-fit rounded-xl text-black bg-page-500 border-2 border-dashed border-page-400 overflow-hidden">
                         <img class="w-full h-52 top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
                         <div class="m-4">
                             <h1 class="text-xl font-bold my-4">{titulo}</h1>
-                            <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-300"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>
+                            <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>
                             <section class="flex items-center justify-between my-4">
                                 <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={difucultadPunto}></span>
-                                <a href={url} class="bg-page-400 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
+                                <a href={url} class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
                             </section>
                         </div>
                     </article>
