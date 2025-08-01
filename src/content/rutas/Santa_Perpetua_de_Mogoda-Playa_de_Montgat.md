@@ -10,7 +10,5 @@ alt_min: 0
 gpx: santa-perpetua-de-mogoda-playa-de-montgat.gpx
 wikiloc: https://es.wikiloc.com/rutas-bikepacking/santa-perpetua-de-mogoda-playa-de-montgat-185001274
 dificultad: Fácil
-color: text-green-600
-bgcolor: bg-green-400
 ---
 

@@ -1,35 +1,35 @@
 ---
-import MiniHeader from "../components/MiniHeader.astro";
+import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Ciclo Family | Todas las rutas en bicicleta por Catalunya">
     <title>Ciclo Family | Contacta con nosotros</title>
-    <MiniHeader />
+    <Header />
     <main class="max-w-7xl mx-auto">
-        <h2 class="text-4xl text-center mt-52 font-bold text-lime-900">Contacta con nosotros</h2>
-        <p class="text-pretty w-96 text-center mx-auto my-4 font-medium text-gray-800">¿Tienes alguna pregunta sobre nuestras rutas? ¿Quieres sugerir una nueva ruta?</p>
+        <h2 class="text-4xl text-center mt-40 font-bold text-page-400">Contacta con nosotros</h2>
+        <p class="text-pretty w-96 text-center mx-auto my-4 font-medium text-black">¿Tienes alguna pregunta sobre nuestras rutas? ¿Quieres sugerir una nueva ruta?</p>
         <section class="grid lg:grid-cols-2 gap-20 xl:gap-40 mt-20 sm:mx-6 md:mx-20 lg:mx-12">
-            <article class="py-8 px-7 bg-page-200 rounded-lg">
-                <h2 class="text-2xl font-semibold text-lime-950">Envianos un mensaje</h2>
+            <article class="py-8 px-7 bg-page-500 border-2 border-black border-dashed rounded-lg">
+                <h2 class="text-2xl font-semibold text-page-400">Envianos un mensaje</h2>
                 <p class="text-pretty font-medium text-sm my-2">Completa el formulario y te responderemos lo antes posible.</p>
-                <form class="grid gap-1 mt-6 text-lime-900 font-medium" action="https://formsubmit.co/ciclofamilyinfo@gmail.com" method="POST" enctype="multipart/form-data">
+                <form class="grid gap-1 mt-6 text-page-400 font-medium" action="https://formsubmit.co/ciclofamilyinfo@gmail.com" method="POST" enctype="multipart/form-data">
                     <div class="grid md:grid-cols-2 gap-2 md:gap-12">
                         <div>
                             <label for="nombre">Nombre: *</label>
-                            <input class="border-2 border-green-600/70 rounded-lg px-2 py-1 w-full" placeholder="Ej: Jaume" type="text" id="nombre" name="Nombre" required>
+                            <input class="border-2 border-page-400/70 rounded-lg px-2 py-1 w-full" placeholder="Ej: Jaume" type="text" id="nombre" name="Nombre" required>
                         </div>
                         <div>
                             <label for="apellidos">Apellidos: *</label>
-                            <input class="border-2 border-green-600/70 rounded-lg px-2 py-1 w-full" placeholder="Ej: García" type="text" id="apellidos" name="Apellidos" required>
+                            <input class="border-2 border-page-400/70 rounded-lg px-2 py-1 w-full" placeholder="Ej: García" type="text" id="apellidos" name="Apellidos" required>
                         </div>
                     </div>
                     <label for="email">Email: *</label>
-                    <input class="border-2 border-green-600/70 rounded-lg px-2 py-1" placeholder="Ej: jaumegarcia@ciclofamily.com" type="email" id="email" name="Email" required>
+                    <input class="border-2 border-page-400/70 rounded-lg px-2 py-1" placeholder="Ej: jaumegarcia@ciclofamily.com" type="email" id="email" name="Email" required>
                     <label for="tel">Teléfono: <span class="italic">(opcional)</span></label>
-                    <input class="border-2 border-green-600/70 rounded-lg px-2 py-1" placeholder="Ej: 654123987" type="tel" id="telefono" name="Telefono">
+                    <input class="border-2 border-page-400/70 rounded-lg px-2 py-1" placeholder="Ej: 654123987" type="tel" id="telefono" name="Telefono">
                     <label for="asunto">Asunto: *</label>
-                    <select class="border-2 border-green-600/70 rounded-lg p-2" required>
+                    <select class="border-2 border-page-400/70 rounded-lg p-2" required>
                         <option value="" selected disabled>Selecciona un asunto</option>
                         <option value="Consulta">Consulta sobre una ruta</option>
                         <option value="Sugerir">Sugerir nueva ruta</option>
@@ -43,21 +43,21 @@ import Layout from "../layouts/Layout.astro";
                         <p></p>
                     </div>
                     <label for="mensaje">Mensaje: *</label>
-                    <textarea class="border-2 border-green-600/70 rounded-lg px-2 py-1 max-h-40 min-h-12" id="message" name="Mensaje" autocorrect="on" spellcheck="true" required></textarea>
-                    <input class="cursor-pointer mt-8 w-48 rounded-lg py-2 mx-auto text-xl bg-green-500/70 hover:bg-green-800 hover:text-white transition" type="submit" value="Enviar Mensaje">
+                    <textarea class="border-2 border-page-400/70 rounded-lg px-2 py-1 max-h-40 min-h-12" id="message" name="Mensaje" autocorrect="on" spellcheck="true" required></textarea>
+                    <input class="cursor-pointer mt-8 w-48 rounded-lg py-2 mx-auto text-xl text-black bg-page-300 hover:bg-page-400 hover:text-white transition" type="submit" value="Enviar Mensaje">
                 </form>
             </article>
             <section class="grid gap-8">
-                <article class="py-8 px-7 bg-page-200 rounded-lg">
-                    <h2 class="text-2xl font-semibold text-lime-950">Sobre Ciclo Family</h2>
-                    <p class="my-4 text-lime-900 font-medium ml-4 text-justify">Somos una familia apasionada por el ciclismo de montaña. Creamos Ciclo Family para ayudar a difundir rutas de montaña seguras, con un contacto mínimo con la carretera.</p>
-                    <p class="text-lime-900 font-medium ml-4 text-justify">Estas rutas están enfocadas a grupos y familias ciclistas a quienes les apasione la montaña. Conoces alguna ruta interesante, envíanosla a través de este formulario y nosotros la revisaremos.</p>
-                    <img class="size-32 mx-auto" src="Logo.png" alt="Logo de Ciclo Family">
+                <article class="py-8 px-7 bg-page-500 border-2 border-black border-dashed rounded-lg">
+                    <h2 class="text-2xl font-semibold text-page-400">Sobre Ciclo Family</h2>
+                    <p class="my-4 text-black font-medium ml-4 text-justify">Somos una familia apasionada por el ciclismo de montaña. Creamos Ciclo Family para ayudar a difundir rutas de montaña seguras, con un contacto mínimo con la carretera.</p>
+                    <p class="text-black font-medium ml-4 text-justify">Estas rutas están enfocadas a grupos y familias ciclistas a quienes les apasione la montaña. Conoces alguna ruta interesante, envíanosla a través de este formulario y nosotros la revisaremos.</p>
+                    <img loading="eager" class="size-32 mx-auto" src="Logo.png" alt="Logo de Ciclo Family">
                 </article>
-                <article class="py-8 px-7 bg-page-200 rounded-lg flex flex-col">
-                    <h2 class="text-2xl font-semibold text-lime-950">Síguenos en Wikiloc</h2>
-                    <p class="my-4 text-lime-900 font-medium ml-4 text-justify">Síguenos en nuestra cuenta de Wikiloc para no perderte ninguna novedad.</p>
-                    <a class="px-4 py-2 rounded-lg flex mx-auto text-lg bg-green-500/20 font-medium text-lime-900 hover:bg-green-800 hover:text-white w-fit transition border-green-900/70 border-2" href="https://es.wikiloc.com/wikiloc/user.do?id=3811112" target="_blank">Ver nuestro<img class="ml-2 w-20 md:w-auto" src="/Wikiloc.png" alt="Logo de Wikiloc"></a>
+                <article class="py-8 px-7 bg-page-500 border-2 border-black border-dashed rounded-lg flex flex-col">
+                    <h2 class="text-2xl font-semibold text-page-400">Síguenos en Wikiloc</h2>
+                    <p class="my-4 text-page-400 font-medium ml-4 text-justify">Síguenos en nuestra cuenta de Wikiloc para no perderte ninguna novedad.</p>
+                    <a class="px-4 py-2 rounded-lg flex mx-auto text-lg font-medium bg-page-400 text-white hover:text-black hover:bg-page-200 w-fit transition" href="https://es.wikiloc.com/wikiloc/user.do?id=3811112" target="_blank">Ver nuestro<img class="ml-2 w-20 md:w-auto" src="/Wikiloc.png" alt="Logo de Wikiloc"></a>
                 </article>
             </section>
             
