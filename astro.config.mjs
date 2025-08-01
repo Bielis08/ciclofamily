@@ -11,7 +11,7 @@ import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
   integrations: [sitemap()],
 
-  output: 'server',
+  output: 'static',
 
   vite: {
     plugins: [tailwindcss()],
