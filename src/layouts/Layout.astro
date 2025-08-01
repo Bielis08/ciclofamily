@@ -39,3 +39,41 @@ const { title } = Astro.props;
 		scroll-behavior: smooth;
 	}
 </style>
+
+<script type="module">
+  function initCarruseles() {
+    document.querySelectorAll('[data-carrusel]').forEach((el) => {
+      const images = el.querySelectorAll('img');
+      let current = 0;
+
+      function showImage(i) {
+        images.forEach((img, idx) => {
+          img.style.opacity = idx === i ? '1' : '0';
+        });
+      }
+
+      const prev = el.querySelector('[data-prev]');
+      const next = el.querySelector('[data-next]');
+
+      prev?.addEventListener('click', () => {
+        current = (current - 1 + images.length) % images.length;
+        showImage(current);
+      });
+
+      next?.addEventListener('click', () => {
+        current = (current + 1) % images.length;
+        showImage(current);
+      });
+
+      showImage(current);
+    });
+  }
+
+  window.addEventListener('astro:after-swap', () => {
+    initCarruseles();
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    initCarruseles();
+  });
+</script>
