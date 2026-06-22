@@ -1,7 +1,10 @@
 ---
-import { getCollection } from "astro:content";
-const rutas = await getCollection('rutas');
-const rutasDestacadas = rutas.slice(0, 3);
+import { supabase } from "../lib/supabase";
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+
+const { data: rutas } = await supabase.from("rutas").select("*").order("titulo");
+const rutasDestacadas = (rutas ?? []).slice(0, 3);
 ---
 <section class="mt-28">
     
@@ -12,27 +15,24 @@ const rutasDestacadas = rutas.slice(0, 3);
     <section class="flex text-pretty flex-wrap justify-center gap-8 mt-12 mb-16 mx-4">
         {
             rutasDestacadas.map(ruta => {
-                const { slug, data } = ruta
-                const { url, portada, titulo, destino, distancia, dificultad, alt_max } = data
+                const { id, portada, titulo, destino, dificultad } = ruta
 
-                let difucultadPunto = ""
-                if (dificultad === 'Fácil') {
-                    difucultadPunto = "/PuntosVerde.png"
-                } else if (dificultad === 'Moderada') {
-                    difucultadPunto = "/PuntosNaranja.png"
-                } else {
-                    difucultadPunto = "/PuntosRojo.png"
+                let difucultadPunto = "/PuntosVerde.webp"
+                if (dificultad === 'Moderada') {
+                    difucultadPunto = "/PuntosNaranja.webp"
+                } else if (dificultad === 'Difícil') {
+                    difucultadPunto = "/PuntosRojo.webp"
                 }
 
                 return (
                     <article class="w-96 h-fit rounded-xl text-black bg-page-500 border-2 border-dashed border-page-400 overflow-hidden">
-                        <img class="w-full h-52 top-0 object-cover" src={portada} alt={`Imagen de ${titulo}`}>
+                        <img class="w-full h-52 top-0 object-cover" src={`${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`} alt={`Imagen de ${titulo}`} loading="lazy" />
                         <div class="m-4">
                             <h1 class="text-xl font-bold my-4">{titulo}</h1>
                             <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>
                             <section class="flex items-center justify-between my-4">
-                                <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={difucultadPunto}></span>
-                                <a href={url} class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
+                                <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={difucultadPunto} alt=""></span>
+                                <a href={`/rutas/${id}`} class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
                             </section>
                         </div>
                     </article>
