@@ -9,6 +9,10 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 
 const { id } = Astro.params;
 
+if (!supabase) {
+  return Astro.redirect("/rutas");
+}
+
 let ruta;
 try {
   const { data } = await supabase.from("rutas").select("*").eq("id", id).single();

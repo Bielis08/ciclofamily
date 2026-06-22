@@ -4,11 +4,13 @@ import { supabase } from "../lib/supabase";
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 
 let rutasDestacadas = [];
-try {
-  const { data: rutas } = await supabase.from("rutas").select("*").order("titulo");
-  rutasDestacadas = (rutas ?? []).slice(0, 3);
-} catch (error) {
-  console.error("Error al obtener rutas destacadas:", error);
+if (supabase) {
+  try {
+    const { data: rutas } = await supabase.from("rutas").select("*").order("titulo");
+    rutasDestacadas = (rutas ?? []).slice(0, 3);
+  } catch (error) {
+    console.error("Error al obtener rutas destacadas:", error);
+  }
 }
 ---
 <section class="mt-28">

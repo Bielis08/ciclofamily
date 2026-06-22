@@ -5,11 +5,13 @@ import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 
 let rutas = [];
-try {
-  const { data } = await supabase.from("rutas").select("*").order("titulo");
-  rutas = data ?? [];
-} catch (error) {
-  console.error("Error al obtener rutas:", error);
+if (supabase) {
+  try {
+    const { data } = await supabase.from("rutas").select("*").order("titulo");
+    rutas = data ?? [];
+  } catch (error) {
+    console.error("Error al obtener rutas:", error);
+  }
 }
 ---
 
