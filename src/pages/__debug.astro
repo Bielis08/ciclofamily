@@ -1,0 +1,23 @@
+---
+const hasUrl = !!import.meta.env.PUBLIC_SUPABASE_URL;
+const hasKey = !!import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const nodeVersion = process.version;
+const astroSite = import.meta.env.SITE;
+const isVercel = !!import.meta.env.VERCEL;
+const vercelEnv = import.meta.env.VERCEL_ENV;
+---
+
+<html>
+  <head><title>Debug</title></head>
+  <body>
+    <h1>Debug Info</h1>
+    <ul>
+      <li>Node: {nodeVersion}</li>
+      <li>Astro Site: {astroSite}</li>
+      <li>On Vercel: {String(isVercel)}</li>
+      <li>VERCEL_ENV: {vercelEnv}</li>
+      <li>PUBLIC_SUPABASE_URL: {hasUrl ? '✓ Set' : '✗ MISSING'}</li>
+      <li>PUBLIC_SUPABASE_ANON_KEY: {hasKey ? '✓ Set' : '✗ MISSING'}</li>
+    </ul>
+  </body>
+</html>
