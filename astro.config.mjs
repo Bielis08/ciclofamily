@@ -9,7 +9,10 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://ciclofamily.vercel.app',
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    maxDuration: 30,
+    memory: 512,
+  }),
   integrations: [sitemap()],
 
   vite: {

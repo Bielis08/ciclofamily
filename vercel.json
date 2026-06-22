@@ -1,8 +1,0 @@
-{
-  "functions": {
-    "_render.func": {
-      "memory": 512,
-      "maxDuration": 30
-    }
-  }
-}
