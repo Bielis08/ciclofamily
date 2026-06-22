@@ -9,7 +9,13 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 
 const { id } = Astro.params;
 
-const { data: ruta } = await supabase.from("rutas").select("*").eq("id", id).single();
+let ruta;
+try {
+  const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
+  ruta = data;
+} catch (error) {
+  console.error("Error al obtener ruta:", error);
+}
 
 if (!ruta) {
   return Astro.redirect("/rutas");
@@ -17,10 +23,15 @@ if (!ruta) {
 
 const { titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
 
-const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
-const images = (storageFiles ?? [])
-  .filter((f) => f.name !== portada)
-  .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
+let images: string[] = [];
+try {
+  const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
+  images = (storageFiles ?? [])
+    .filter((f) => f.name !== portada)
+    .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
+} catch (error) {
+  console.error("Error al obtener imágenes de la ruta:", error);
+}
 
 const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
 
