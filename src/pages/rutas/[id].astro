@@ -102,7 +102,7 @@ if (dificultad === "Difícil") {
             </section>
             <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
-            <iframe class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
+            <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
             <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
             {images.length > 0 ? (
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
