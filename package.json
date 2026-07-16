@@ -10,16 +10,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/markdown-remark": "6.3.3",
-    "@astrojs/sitemap": "3.4.1",
-    "@astrojs/vercel": "^8.2.11",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/markdown-remark": "7.2.1",
+    "@astrojs/sitemap": "3.7.3",
+    "@astrojs/vercel": "^11.0.3",
     "@fontsource-variable/montserrat": "^5.1.0",
     "@supabase/supabase-js": "^2.108.2",
     "@tailwindcss/vite": "^4.1.11",
     "@vercel/analytics": "^1.4.0",
     "@vercel/speed-insights": "^1.1.0",
-    "astro": "5.12.3",
+    "astro": "7.1.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.6.3",
     "ws": "^8.21.0"
