@@ -14,17 +14,12 @@
     "@astrojs/markdown-remark": "7.2.1",
     "@astrojs/sitemap": "3.7.3",
     "@astrojs/vercel": "^11.0.3",
-    "@fontsource-variable/montserrat": "^5.1.0",
     "@supabase/supabase-js": "^2.108.2",
     "@tailwindcss/vite": "^4.1.11",
     "@vercel/analytics": "^1.4.0",
     "@vercel/speed-insights": "^1.1.0",
     "astro": "7.1.0",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.6.3",
-    "ws": "^8.21.0"
-  },
-  "devDependencies": {
-    "@types/ws": "^8.18.1"
+    "typescript": "^5.6.3"
   }
 }

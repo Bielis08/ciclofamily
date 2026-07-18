@@ -1,24 +1,36 @@
 ---
 import { supabase } from "../lib/supabase";
+import { getCached, setCached } from "../lib/cache";
 import ContainerRutas from "../components/ContainerRutas.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 
+const CACHE_KEY = "rutas:all";
 let rutas = [];
-if (supabase) {
+
+const cached = getCached<{ id: string; titulo: string }[]>(CACHE_KEY);
+if (cached) {
+  rutas = cached;
+} else if (supabase) {
   try {
     const { data } = await supabase.from("rutas").select("*").order("titulo");
-    rutas = data ?? [];
+    const all = data ?? [];
+    setCached(CACHE_KEY, all, 120_000);
+    rutas = all;
   } catch (error) {
     console.error("Error al obtener rutas:", error);
   }
 }
+
+const title = "Todas las Rutas en Bicicleta por Catalunya | Ciclo Family";
+const description = `Explora todas nuestras ${rutas.length} rutas en bicicleta por Catalunya. Encuentra rutas familiares por dificultad, distancia y destino. Mapas, fotos y descarga GPX.`;
 ---
 
-<Layout title="Ciclo Family | Todas las rutas en bicicleta por Catalunya">
-    <title>Ciclo Family | Descubre todas las rutas en bicicleta por Catalunya</title>
+<Layout title={title} description={description}>
     <Header />
     <main class="max-w-7xl mx-auto mt-40">
-        <ContainerRutas rutas={rutas} />
+        <section aria-label="Lista de rutas">
+            <ContainerRutas rutas={rutas} />
+        </section>
     </main>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { supabase } from "../../lib/supabase";
+import { getCached, setCached } from "../../lib/cache";
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
@@ -13,12 +14,21 @@ if (!supabase) {
   return Astro.redirect("/rutas");
 }
 
+const CACHE_KEY_RUTA = `ruta:${id}`;
+const CACHE_KEY_IMAGES = `ruta:${id}:images`;
+
 let ruta;
-try {
-  const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
-  ruta = data;
-} catch (error) {
-  console.error("Error al obtener ruta:", error);
+const cachedRuta = getCached<typeof ruta>(CACHE_KEY_RUTA);
+if (cachedRuta) {
+  ruta = cachedRuta;
+} else {
+  try {
+    const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
+    ruta = data;
+    if (ruta) setCached(CACHE_KEY_RUTA, ruta, 300_000);
+  } catch (error) {
+    console.error("Error al obtener ruta:", error);
+  }
 }
 
 if (!ruta) {
@@ -28,13 +38,19 @@ if (!ruta) {
 const { titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
 
 let images: string[] = [];
-try {
-  const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
-  images = (storageFiles ?? [])
-    .filter((f) => f.name !== portada)
-    .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
-} catch (error) {
-  console.error("Error al obtener imágenes de la ruta:", error);
+const cachedImages = getCached<string[]>(CACHE_KEY_IMAGES);
+if (cachedImages) {
+  images = cachedImages;
+} else {
+  try {
+    const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
+    images = (storageFiles ?? [])
+      .filter((f) => f.name !== portada)
+      .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
+    setCached(CACHE_KEY_IMAGES, images, 300_000);
+  } catch (error) {
+    console.error("Error al obtener imágenes de la ruta:", error);
+  }
 }
 
 const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
@@ -54,74 +70,140 @@ const gpxOptions = {
 };
 const gpxStudioUrl = "https://gpx.studio/embed?options=" + encodeURIComponent(JSON.stringify(gpxOptions));
 
-let color = ""
+let color = "";
+if (dificultad === "Fácil") color = "bg-facil";
+if (dificultad === "Moderada") color = "bg-moderada";
+if (dificultad === "Difícil") color = "bg-dificil";
 
-if (dificultad === "Fácil") {
-    color = "bg-facil"
-}
-if (dificultad === "Moderada") {
-    color = "bg-moderada"
-}
-if (dificultad === "Difícil") {
-    color = "bg-dificil"
-}
+const pageTitle = `Ruta en Bicicleta: ${titulo} | Ciclo Family`;
+const pageDescription = `Descubre la ruta en bicicleta ${titulo} en ${destino}. ${distancia} km de distancia, ${desnivel} m de desnivel. Dificultad ${dificultad}. Ideal para familias y ciclistas.`;
+const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
 ---
 
-<Layout title={titulo}>
-    <title>Ruta en bicicleta: {titulo}</title>
-    <meta name="description" content={`Descubre la ruta en bicicleta ${titulo}. Una actividad perfecta para explorar ${destino} con una distancia de ${distancia} km y un desnivel de ${desnivel} m.`} />
-    <meta name="keywords" content={`rutas en bicicleta, rutas por Catalunya, rutas familiares, ciclismo, turismo en bicicleta, ${destino}, ${titulo}`} />
-    <meta property="og:title" content={`Ruta en bicicleta: ${titulo}`} />
-    <meta property="og:description" content={`Explora la ruta ${titulo} con una distancia de ${distancia} km en ${destino}.`} />
-    <meta property="og:image" content={portadaUrl} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`Ruta en bicicleta: ${titulo}`} />
-    <meta name="twitter:description" content={`Explora ${titulo}, una ruta ideal para el ciclismo en ${destino}.`} />
-    <meta name="twitter:image" content={portadaUrl} />
-    <Header />
-    <BtnRutas />
-    <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
-        <img class="w-full h-96 md:h-[600px] sm:rounded-t-xl top-0 object-cover" src={portadaUrl} alt={`Fotografía de ${titulo}`} loading="lazy" />
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  image={portadaUrl}
+  url={canonicalUrl}
+  type="article"
+  keywords={`rutas en bicicleta, ${destino}, ${titulo}, ciclismo Catalunya, rutas familiares, ${dificultad}`}
+>
+  <!-- Structured Data: TouristTrip -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "name": titulo,
+    "description": pageDescription,
+    "url": canonicalUrl,
+    "image": portadaUrl,
+    "touristType": "Familia Ciclista",
+    "itinerary": {
+      "@type": "ItemList",
+      "numberOfItems": 1,
+      "itemListElement": {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Place",
+          "name": destino,
+          "description": `Ruta de ${distancia} km con ${desnivel} m de desnivel en ${destino}`
+        }
+      }
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Ciclo Family",
+      "url": "https://ciclofamily.vercel.app"
+    }
+  })} />
 
-        <div class="mx-8">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <h1 class="font-bold text-2xl sm:text-3xl my-4">{titulo}</h1>
-                <span id="dificultad" class={`${color} rounded-2xl h-10 p-2 font-medium`}>{dificultad}</span>
-            </div>
-            <section class="mx-0 sm:mx-8 bg-page-500 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
-                <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b>{alt_max}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
-            </section>
-            <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
-                <a href={`${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
-                <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
-            </section>
-            <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
-            <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
-            <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
-            <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
-            {images.length > 0 ? (
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
-                {images.map((img) => (
-                <a href={img} target="_blank" rel="noopener noreferrer">
-                    <img
-                    src={img}
-                    alt={`Imagen de la ruta ${titulo}`}
-                    class="rounded-xl object-cover w-full h-64 md:hover:scale-150 transition"
-                    loading="lazy"
-                    />
-                </a>
-                ))}
-            </div>
-            ) : (
-            <p class="text-center text-lg text-gray-600 italic my-6">
-                No hay fotos disponibles para esta ruta. Estamos trabajando en ello.
-            </p>
-            )}
-        </div>
-    </main>
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://ciclofamily.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Rutas",
+        "item": "https://ciclofamily.vercel.app/rutas"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": titulo,
+        "item": canonicalUrl
+      }
+    ]
+  })} />
+
+  <Header />
+  <BtnRutas />
+  <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
+    <nav aria-label="Breadcrumb" class="text-sm text-gray-600 mx-8 pt-4">
+      <ol class="flex items-center gap-1">
+        <li><a href="/" class="hover:underline hover:text-page-400 transition">Inicio</a></li>
+        <li aria-hidden="true" class="text-gray-400">›</li>
+        <li><a href="/rutas" class="hover:underline hover:text-page-400 transition">Rutas</a></li>
+        <li aria-hidden="true" class="text-gray-400">›</li>
+        <li class="text-page-400 font-medium">{titulo}</li>
+      </ol>
+    </nav>
+
+    <img class="w-full h-96 md:h-[600px] sm:rounded-t-xl top-0 object-cover" src={portadaUrl} alt={`Fotografía de la ruta ${titulo} en ${destino}`} loading="lazy" width="1200" height="600" />
+
+    <div class="mx-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <h1 class="font-bold text-2xl sm:text-3xl my-4">{titulo}</h1>
+        <span id="dificultad" class={`${color} rounded-2xl h-10 p-2 font-medium`}>{dificultad}</span>
+      </div>
+      <section class="mx-0 sm:mx-8 bg-page-500 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
+        <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b>{alt_max}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
+      </section>
+      <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
+        <a href={`${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
+        <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
+      </section>
+      <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
+      <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
+      <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
+      <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
+      {images.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
+          {images.map((img) => (
+          <a href={img} target="_blank" rel="noopener noreferrer">
+              <img
+              src={img}
+              alt={`Imagen de la ruta ${titulo} en ${destino} - Ciclo Family`}
+              class="rounded-xl object-cover w-full h-64 md:hover:scale-150 transition"
+              loading="lazy"
+              width="384"
+              height="256"
+              />
+          </a>
+          ))}
+      </div>
+      ) : (
+      <p class="text-center text-lg text-gray-600 italic my-6">
+          No hay fotos disponibles para esta ruta. Estamos trabajando en ello.
+      </p>
+      )}
+    </div>
+  </main>
 </Layout>

@@ -3,10 +3,12 @@ import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import Logo from "../assets/Logo.webp";
 import WikilocLogo from "../assets/Wikiloc.webp";
+
+const title = "Contacto | Ciclo Family - Rutas en Bicicleta";
+const description = "Contacta con Ciclo Family. Envíanos tus dudas sobre rutas, sugiere una nueva ruta o reporta problemas. Estamos aquí para ayudarte a disfrutar del ciclismo en familia.";
 ---
 
-<Layout title="Ciclo Family | Todas las rutas en bicicleta por Catalunya">
-    <title>Ciclo Family | Contacta con nosotros</title>
+<Layout title={title} description={description}>
     <Header />
     <main class="max-w-7xl mx-auto">
         <h2 class="text-4xl text-center mt-40 font-bold text-page-400">Contacta con nosotros</h2>
@@ -62,7 +64,7 @@ import WikilocLogo from "../assets/Wikiloc.webp";
                     <a class="px-4 py-2 rounded-lg flex mx-auto text-lg font-medium bg-page-400 text-white hover:text-black hover:bg-page-200 w-fit transition" href="https://es.wikiloc.com/wikiloc/user.do?id=3811112" target="_blank">Ver nuestro<img class="ml-2 w-20 md:w-auto" src={WikilocLogo.src} alt="Logo de Wikiloc"></a>
                 </article>
             </section>
-            
+
         </section>
     </main>
 </Layout>

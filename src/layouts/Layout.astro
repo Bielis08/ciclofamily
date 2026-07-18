@@ -1,37 +1,102 @@
 ---
 interface Props {
-	title: string;
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  keywords?: string;
 }
 
-import '@fontsource-variable/montserrat';
-// import Header from '../components/Header.astro';
+import '../styles/fonts.css';
 import Footer from '../components/Footer.astro';
-import { ClientRouter } from 'astro:transitions';
-import SpeedInsights  from "@vercel/speed-insights/astro"
+import SpeedInsights from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro'
 import '../styles/global.css'
 
-const { title } = Astro.props;
+const {
+  title,
+  description,
+  image = '/Banner.webp',
+  url = Astro.url.href,
+  type = 'website',
+  keywords = 'rutas en bicicleta, ciclismo, Catalunya, familias, montaña'
+} = Astro.props;
+
+const siteUrl = 'https://ciclofamily.vercel.app';
+const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 ---
 
 <!doctype html>
 <html class="bg-page-100" lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Ciclo Family" />
+		<link rel="canonical" href={url} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content={type} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={fullImage} />
+		<meta property="og:url" content={url} />
+		<meta property="og:site_name" content="Ciclo Family" />
+		<meta property="og:locale" content="es_ES" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={fullImage} />
+
+		<!-- Google -->
 		<meta name="google-site-verification" content="G5nl4VQUvHU_DD7UoGnpyiq8y4RJS9RGQ0JikrB8G_M" />
+
+		<!-- Preconnect -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+		<!-- Favicon -->
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/favicon.svg" />
+
+		<!-- Structured Data: Organization -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "Ciclo Family",
+			"url": "https://ciclofamily.vercel.app",
+			"logo": "https://ciclofamily.vercel.app/Logo.webp",
+			"description": "Rutas en bicicleta por Catalunya para familias y grupos de ciclistas de montaña.",
+			"sameAs": [
+				"https://es.wikiloc.com/wikiloc/user.do?id=3811112"
+			],
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"email": "ciclofamilyinfo@gmail.com",
+				"contactType": "customer service",
+				"availableLanguage": "Spanish"
+			},
+			"areaServed": {
+				"@type": "Country",
+				"name": "España"
+			},
+			"knowsAbout": ["ciclismo de montaña", "rutas en bicicleta", "Catalunya"]
+		})} />
+
 		<title>{title}</title>
 
 		<!-- Umami integration -->
 		 <script defer src="https://cloud.umami.is/script.js" data-website-id="6505ae5a-2786-4807-b964-e8350b73098b"></script>
 	</head>
 	<body>
-		<!-- <Header /> -->
 		<slot />
 		<Footer />
-		<ClientRouter />
 		<SpeedInsights />
 		<Analytics />
 	</body>
