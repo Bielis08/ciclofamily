@@ -1,7 +1,7 @@
 ---
-import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { supabase } from "../../lib/supabase";
 import { getCached, setCached } from "../../lib/cache";
+import { getMarkdownProcessor } from "../../lib/markdown";
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
@@ -23,9 +23,9 @@ if (cachedRuta) {
   ruta = cachedRuta;
 } else {
   try {
-    const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
+    const { data } = await supabase.from("rutas").select("id, titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion").eq("id", id).single();
     ruta = data;
-    if (ruta) setCached(CACHE_KEY_RUTA, ruta, 300_000);
+    if (ruta) setCached(CACHE_KEY_RUTA, ruta, 600_000);
   } catch (error) {
     console.error("Error al obtener ruta:", error);
   }
@@ -47,7 +47,7 @@ if (cachedImages) {
     images = (storageFiles ?? [])
       .filter((f) => f.name !== portada)
       .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
-    setCached(CACHE_KEY_IMAGES, images, 300_000);
+    setCached(CACHE_KEY_IMAGES, images, 600_000);
   } catch (error) {
     console.error("Error al obtener imágenes de la ruta:", error);
   }
@@ -55,7 +55,7 @@ if (cachedImages) {
 
 const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
 
-const processor = await createMarkdownProcessor();
+const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
 const gpxFileUrl = `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`;

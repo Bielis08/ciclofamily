@@ -4,7 +4,7 @@ interface CacheEntry<T> {
 }
 
 const cache = new Map<string, CacheEntry<unknown>>();
-const DEFAULT_TTL = 60_000; // 1 minute
+const DEFAULT_TTL = 60_000;
 
 export function getCached<T>(key: string): T | null {
   const entry = cache.get(key) as CacheEntry<T> | undefined;
