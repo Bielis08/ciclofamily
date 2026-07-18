@@ -10,10 +10,21 @@ const description = "Descubre las mejores rutas en bicicleta por Catalunya para 
 ---
 
 <Layout title={title} description={description} type="website">
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": "Ciclo Family",
+		"url": "https://ciclofamily.vercel.app",
+		"description": "Rutas en bicicleta por Catalunya para familias y grupos de ciclistas de montaña.",
+		"potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://ciclofamily.vercel.app/rutas?q={search_term_string}",
+			"query-input": "required name=search_term_string"
+		}
+	})} />
 	<Header />
 	<MiniHeader />
 	<main class="max-w-7xl mx-auto">
-		<!-- <EncuentraRuta /> -->
 		<RutasDestacadas />
 		<PorqueCicloFamily />
 	</main>

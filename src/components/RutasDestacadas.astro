@@ -1,25 +1,9 @@
 ---
-import { supabase } from "../lib/supabase";
-import { getCached, setCached } from "../lib/cache";
+import { getAllRutas } from "../lib/rutas";
+import { getDificultadColor, getRutaImageUrl } from "../lib/utils";
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-
-const CACHE_KEY = "rutas:all";
-let rutasDestacadas: { id: string; portada: string; titulo: string; destino: string; dificultad: string }[] = [];
-
-const cached = getCached<{ id: string; portada: string; titulo: string; destino: string; dificultad: string }[]>(CACHE_KEY);
-if (cached) {
-  rutasDestacadas = cached.slice(0, 3);
-} else if (supabase) {
-  try {
-    const { data: rutas } = await supabase.from("rutas").select("id, titulo, destino, distancia, dificultad, alt_max, portada").order("titulo");
-    const all = rutas ?? [];
-    setCached(CACHE_KEY, all, 300_000);
-    rutasDestacadas = all.slice(0, 3);
-  } catch (error) {
-    console.error("Error al obtener rutas destacadas:", error);
-  }
-}
+const allRutas = await getAllRutas();
+const rutasDestacadas = allRutas.slice(0, 3);
 ---
 <section class="mt-28">
     
@@ -31,22 +15,17 @@ if (cached) {
         {
             rutasDestacadas.map(ruta => {
                 const { id, portada, titulo, destino, dificultad } = ruta
-
-                let difucultadPunto = "/PuntosVerde.webp"
-                if (dificultad === 'Moderada') {
-                    difucultadPunto = "/PuntosNaranja.webp"
-                } else if (dificultad === 'Difícil') {
-                    difucultadPunto = "/PuntosRojo.webp"
-                }
+                const dificultadPunto = getDificultadColor(dificultad);
+                const imagenUrl = getRutaImageUrl(id, portada);
 
                 return (
                     <article class="w-96 h-fit rounded-xl text-black bg-page-500 border-2 border-dashed border-page-400 overflow-hidden">
-                        <img class="w-full h-52 top-0 object-cover" src={`${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`} alt={`Imagen de ${titulo}`} loading="lazy" />
+                        <img class="w-full h-52 top-0 object-cover" src={imagenUrl} alt={`Imagen de ${titulo}`} loading="lazy" />
                         <div class="m-4">
                             <h1 class="text-xl font-bold my-4">{titulo}</h1>
                             <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>
                             <section class="flex items-center justify-between my-4">
-                                <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={difucultadPunto} alt=""></span>
+                                <span class='flex items-center gap-2 font-semibold'>Dificultad: <img class="h-5" src={dificultadPunto} alt=""></span>
                                 <a href={`/rutas/${id}`} class="bg-page-300 font-semibold px-4 py-2 rounded-xl hover:scale-110 transition">Ver Detalles</a>
                             </section>
                         </div>
