@@ -2,6 +2,7 @@
 import { getRutaById } from "../../lib/rutas";
 import { getRutaImageUrl, getGpxFileUrl } from "../../lib/utils";
 import { getMarkdownProcessor } from "../../lib/markdown";
+
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
@@ -18,7 +19,9 @@ if (!ruta) {
   return Astro.redirect("/rutas");
 }
 
-const { titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
+const { titulo, destino, distancia, desnivel, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
+
+const gpxFileUrl = getGpxFileUrl(gpx);
 
 let images: string[] = [];
 try {
@@ -38,7 +41,6 @@ const portadaUrl = getRutaImageUrl(id, portada);
 const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
-const gpxFileUrl = getGpxFileUrl(gpx);
 const gpxOptions = {
   token: "YOUR_MAPBOX_TOKEN",
   files: [gpxFileUrl],
@@ -153,10 +155,10 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
       </div>
       <section class="mx-0 sm:mx-8 bg-page-500 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
         <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b>{alt_max}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia} km</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel} m</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
       </section>
       <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
         <a href={gpxFileUrl} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
@@ -188,4 +190,15 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
       )}
     </div>
   </main>
+  <script define:vars={{ gpx }} is:inline>
+    requestAnimationFrame(() => {
+      fetch(`/api/gpx-altitudes?gpx=${encodeURIComponent(gpx)}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.altMax != null) document.getElementById("alt-max").textContent = data.altMax + " m";
+          if (data.altMin != null) document.getElementById("alt-min").textContent = data.altMin + " m";
+        })
+        .catch(() => {});
+    });
+  </script>
 </Layout>

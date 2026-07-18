@@ -6,8 +6,8 @@ interface Ruta {
   titulo: string;
   destino: string;
   distancia: number;
+  desnivel: number;
   dificultad: string;
-  alt_max: number;
   portada: string;
 }
 
@@ -19,7 +19,7 @@ const { rutas = [] } = Astro.props as { rutas: Ruta[] };
     <section class="flex flex-wrap justify-center mx-4 gap-8 mt-24">
         {
             rutas.map(ruta => {
-                const { id, portada, titulo, destino, distancia, dificultad, alt_max } = ruta
+                const { id, portada, titulo, destino, distancia, desnivel, dificultad } = ruta
                 const dificultadPunto = getDificultadColor(dificultad);
                 const imagenUrl = getRutaImageUrl(id, portada);
 
@@ -33,7 +33,7 @@ const { rutas = [] } = Astro.props as { rutas: Ruta[] };
                                 <span class="flex"><img class="size-5 mr-1" src="/icons/ubicacion.svg" alt=""> Distancia: <span class="font-semibold flex ml-1">{distancia} Km</span></span>
                                 <span class="flex items-center"><img class="size-8 mr-2" src="/icons/dificultad.svg" alt=""><img class="h-5" src={dificultadPunto} alt=""></span>
                             </section>
-                            <span class="flex"><img class="size-6 mr-1" src="/icons/desnivel.svg" alt="">Desnivel: <span class="font-semibold ml-1">{alt_max} m</span></span>
+                            <span class="flex"><img class="size-6 mr-1" src="/icons/desnivel.svg" alt="">Desnivel: <span class="font-semibold ml-1">{desnivel} m</span></span>
                         </div>
                     </a>
                 )

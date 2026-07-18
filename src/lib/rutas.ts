@@ -6,14 +6,12 @@ export interface RutaBasica {
   titulo: string;
   destino: string;
   distancia: number;
+  desnivel: number;
   dificultad: string;
-  alt_max: number;
   portada: string;
 }
 
 export interface RutaCompleta extends RutaBasica {
-  desnivel: number;
-  alt_min: number;
   gpx: string;
   wikiloc: string;
   descripcion: string;
@@ -30,7 +28,7 @@ export async function getAllRutas(): Promise<RutaBasica[]> {
   try {
     const { data } = await supabase
       .from("rutas")
-      .select("id, titulo, destino, distancia, dificultad, alt_max, portada")
+      .select("id, titulo, destino, distancia, desnivel, dificultad, portada")
       .order("titulo");
     const rutas = data ?? [];
     setCached(CACHE_KEY_ALL, rutas, 300_000);
@@ -51,7 +49,7 @@ export async function getRutaById(id: string): Promise<RutaCompleta | null> {
   try {
     const { data } = await supabase
       .from("rutas")
-      .select("id, titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion")
+      .select("id, titulo, destino, distancia, desnivel, dificultad, gpx, wikiloc, portada, descripcion")
       .eq("id", id)
       .single();
     if (data) setCached(cacheKey, data, 600_000);
