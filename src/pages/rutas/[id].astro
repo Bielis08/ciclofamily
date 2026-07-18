@@ -1,35 +1,18 @@
 ---
-import { supabase } from "../../lib/supabase";
-import { getCached, setCached } from "../../lib/cache";
+import { getRutaById } from "../../lib/rutas";
+import { getRutaImageUrl, getGpxFileUrl } from "../../lib/utils";
 import { getMarkdownProcessor } from "../../lib/markdown";
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-
 const { id } = Astro.params;
 
-if (!supabase) {
+if (!id) {
   return Astro.redirect("/rutas");
 }
 
-const CACHE_KEY_RUTA = `ruta:${id}`;
-const CACHE_KEY_IMAGES = `ruta:${id}:images`;
-
-let ruta;
-const cachedRuta = getCached<typeof ruta>(CACHE_KEY_RUTA);
-if (cachedRuta) {
-  ruta = cachedRuta;
-} else {
-  try {
-    const { data } = await supabase.from("rutas").select("id, titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion").eq("id", id).single();
-    ruta = data;
-    if (ruta) setCached(CACHE_KEY_RUTA, ruta, 600_000);
-  } catch (error) {
-    console.error("Error al obtener ruta:", error);
-  }
-}
+const ruta = await getRutaById(id);
 
 if (!ruta) {
   return Astro.redirect("/rutas");
@@ -38,27 +21,24 @@ if (!ruta) {
 const { titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
 
 let images: string[] = [];
-const cachedImages = getCached<string[]>(CACHE_KEY_IMAGES);
-if (cachedImages) {
-  images = cachedImages;
-} else {
-  try {
+try {
+  const { supabase } = await import("../../lib/supabase");
+  if (supabase) {
     const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
     images = (storageFiles ?? [])
       .filter((f) => f.name !== portada)
-      .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
-    setCached(CACHE_KEY_IMAGES, images, 600_000);
-  } catch (error) {
-    console.error("Error al obtener imágenes de la ruta:", error);
+      .map((f) => getRutaImageUrl(id, f.name));
   }
+} catch (error) {
+  console.error("Error al obtener imágenes de la ruta:", error);
 }
 
-const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
+const portadaUrl = getRutaImageUrl(id, portada);
 
 const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
-const gpxFileUrl = `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`;
+const gpxFileUrl = getGpxFileUrl(gpx);
 const gpxOptions = {
   token: "YOUR_MAPBOX_TOKEN",
   files: [gpxFileUrl],
@@ -70,10 +50,12 @@ const gpxOptions = {
 };
 const gpxStudioUrl = "https://gpx.studio/embed?options=" + encodeURIComponent(JSON.stringify(gpxOptions));
 
-let color = "";
-if (dificultad === "Fácil") color = "bg-facil";
-if (dificultad === "Moderada") color = "bg-moderada";
-if (dificultad === "Difícil") color = "bg-dificil";
+const color = (() => {
+  if (dificultad === "Fácil") return "bg-facil";
+  if (dificultad === "Moderada") return "bg-moderada";
+  if (dificultad === "Difícil") return "bg-dificil";
+  return "";
+})();
 
 const pageTitle = `Ruta en Bicicleta: ${titulo} | Ciclo Family`;
 const pageDescription = `Descubre la ruta en bicicleta ${titulo} en ${destino}. ${distancia} km de distancia, ${desnivel} m de desnivel. Dificultad ${dificultad}. Ideal para familias y ciclistas.`;
@@ -177,7 +159,7 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
         <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
       </section>
       <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
-        <a href={`${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
+        <a href={gpxFileUrl} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
         <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
       </section>
       <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>

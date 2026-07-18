@@ -1,32 +1,34 @@
 ---
-import { supabase } from "../lib/supabase";
-import { getCached, setCached } from "../lib/cache";
+import { getAllRutas } from "../lib/rutas";
 import ContainerRutas from "../components/ContainerRutas.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 
-const CACHE_KEY = "rutas:all";
-let rutas: { id: string; titulo: string; destino: string; distancia: number; dificultad: string; alt_max: number; portada: string }[] = [];
-
-const cached = getCached<{ id: string; titulo: string; destino: string; distancia: number; dificultad: string; alt_max: number; portada: string }[]>(CACHE_KEY);
-if (cached) {
-  rutas = cached;
-} else if (supabase) {
-  try {
-    const { data } = await supabase.from("rutas").select("id, titulo, destino, distancia, dificultad, alt_max, portada").order("titulo");
-    const all = data ?? [];
-    setCached(CACHE_KEY, all, 300_000);
-    rutas = all;
-  } catch (error) {
-    console.error("Error al obtener rutas:", error);
-  }
-}
+const rutas = await getAllRutas();
 
 const title = "Todas las Rutas en Bicicleta por Catalunya | Ciclo Family";
 const description = `Explora todas nuestras ${rutas.length} rutas en bicicleta por Catalunya. Encuentra rutas familiares por dificultad, distancia y destino. Mapas, fotos y descarga GPX.`;
+
+const siteUrl = "https://ciclofamily.vercel.app";
 ---
 
 <Layout title={title} description={description}>
+    <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Rutas en Bicicleta por Catalunya",
+        "description": description,
+        "url": `${siteUrl}/rutas`,
+        "numberOfItems": rutas.length,
+        "itemListElement": rutas.map((ruta, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `${siteUrl}/rutas/${ruta.id}`,
+            "name": ruta.titulo,
+            "description": `${ruta.destino} - ${ruta.distancia} km - Dificultad ${ruta.dificultad}`,
+            "image": `${siteUrl}/storage/v1/object/public/rutas-imagenes/${ruta.id}/${ruta.portada}`
+        }))
+    })} />
     <Header />
     <main class="max-w-7xl mx-auto mt-40">
         <section aria-label="Lista de rutas">
