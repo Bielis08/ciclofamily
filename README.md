@@ -4,4 +4,3 @@ Esta página web a sido creada como un sitio donde **encontrar rutas** por la zo
 ***Esta documentación és provisional.***
 ## ¿Como está hecha?
 - Base de datos en supabase
-- Archivos gpx en repositorio de github
