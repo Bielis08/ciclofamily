@@ -90,11 +90,11 @@ if (dificultad === "Difícil") {
                 <span id="dificultad" class={`${color} rounded-2xl h-10 p-2 font-medium`}>{dificultad}</span>
             </div>
             <section class="mx-0 sm:mx-8 bg-page-500 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
-                <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" /><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" /><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" /><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" /><span class="flex flex-col sm:mx-2">Altitud Máx<b>{alt_max}</b></span></span>
-                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" /><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
+                <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b>{alt_max}</b></span></span>
+                <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
             </section>
             <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
                 <a href={`${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
@@ -102,7 +102,7 @@ if (dificultad === "Difícil") {
             </section>
             <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
             <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
-            <iframe class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
+            <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
             <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
             {images.length > 0 ? (
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">

@@ -31,7 +31,7 @@ import WikilocLogo from "../assets/Wikiloc.webp";
                     <label for="tel">Teléfono: <span class="italic">(opcional)</span></label>
                     <input class="border-2 border-page-400/70 rounded-lg px-2 py-1" placeholder="Ej: 654123987" type="tel" id="telefono" name="Telefono">
                     <label for="asunto">Asunto: *</label>
-                    <select class="border-2 border-page-400/70 rounded-lg p-2" required>
+                    <select title="Selector del asunto del mensaje" class="border-2 border-page-400/70 rounded-lg p-2" required>
                         <option value="" selected disabled>Selecciona un asunto</option>
                         <option value="Consulta">Consulta sobre una ruta</option>
                         <option value="Sugerir">Sugerir nueva ruta</option>
@@ -40,12 +40,12 @@ import WikilocLogo from "../assets/Wikiloc.webp";
                         <option value="Otro">Otro</option>
                     </select>
                     <label for="mensaje">Adjuntar imagenes o rutas:</label>
-                    <input class="min-w-72" type="file" id="Adjuntos" name="Adjuntos" multiple>
+                    <input class="min-w-72" type="file" id="Adjuntos" title="Input para adjuntar imagenes o rutas" name="Adjuntos" multiple>
                     <div class="preview text-sm mt-4 space-y-3">
                         <p></p>
                     </div>
                     <label for="mensaje">Mensaje: *</label>
-                    <textarea class="border-2 border-page-400/70 rounded-lg px-2 py-1 max-h-40 min-h-12" id="message" name="Mensaje" autocorrect="on" spellcheck="true" required></textarea>
+                    <textarea title="Input para escribir un mensaje" class="border-2 border-page-400/70 rounded-lg px-2 py-1 max-h-40 min-h-12" id="message" name="Mensaje" autocorrect="on" spellcheck="true" required></textarea>
                     <input class="cursor-pointer mt-8 w-48 rounded-lg py-2 mx-auto text-xl text-black bg-page-300 hover:bg-page-400 hover:text-white transition" type="submit" value="Enviar Mensaje">
                 </form>
             </article>
