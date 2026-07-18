@@ -5,16 +5,16 @@ import { getCached, setCached } from "../lib/cache";
 const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 
 const CACHE_KEY = "rutas:all";
-let rutasDestacadas = [];
+let rutasDestacadas: { id: string; portada: string; titulo: string; destino: string; dificultad: string }[] = [];
 
 const cached = getCached<{ id: string; portada: string; titulo: string; destino: string; dificultad: string }[]>(CACHE_KEY);
 if (cached) {
   rutasDestacadas = cached.slice(0, 3);
 } else if (supabase) {
   try {
-    const { data: rutas } = await supabase.from("rutas").select("*").order("titulo");
+    const { data: rutas } = await supabase.from("rutas").select("id, titulo, destino, dificultad, portada").order("titulo");
     const all = rutas ?? [];
-    setCached(CACHE_KEY, all, 120_000); // 2 min cache
+    setCached(CACHE_KEY, all, 300_000);
     rutasDestacadas = all.slice(0, 3);
   } catch (error) {
     console.error("Error al obtener rutas destacadas:", error);
