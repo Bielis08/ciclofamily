@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ciclofamily.vercel.app/sitemap-index.xml

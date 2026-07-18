@@ -4,9 +4,12 @@ import MiniHeader from '../components/MiniHeader.astro';
 import PorqueCicloFamily from '../components/PorqueCicloFamily.astro';
 import RutasDestacadas from '../components/RutasDestacadas.astro';
 import Layout from '../layouts/Layout.astro';
+
+const title = "Ciclo Family | Rutas en Bicicleta por Catalunya para Familias";
+const description = "Descubre las mejores rutas en bicicleta por Catalunya para familias y grupos. Rutas de montaña seguras, información detallada y mapas interactivos. Ciclismo para todos los niveles.";
 ---
 
-<Layout title="Ciclo Family | Las mejores rutas en bicicleta por Catalunya">
+<Layout title={title} description={description} type="website">
 	<Header />
 	<MiniHeader />
 	<main class="max-w-7xl mx-auto">
