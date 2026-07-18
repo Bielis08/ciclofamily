@@ -42,7 +42,7 @@ const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}
 const processor = await createMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
-const gpxFileUrl = `https://raw.githubusercontent.com/Bielis08/rutas-ciclofamily/main/${gpx}`;
+const gpxFileUrl = `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`;
 const gpxOptions = {
   token: "YOUR_MAPBOX_TOKEN",
   files: [gpxFileUrl],
@@ -97,7 +97,7 @@ if (dificultad === "Difícil") {
                 <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b>{alt_min}</b></span></span>
             </section>
             <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
-                <a href={`https://github.com/Bielis08/rutas-ciclofamily/blob/main/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
+                <a href={`${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
                 <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
             </section>
             <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
