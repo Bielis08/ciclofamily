@@ -3,10 +3,9 @@ interface Props {
 	title: string;
 }
 
-import '@fontsource-variable/montserrat';
+import '../styles/fonts.css';
 // import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { ClientRouter } from 'astro:transitions';
 import SpeedInsights  from "@vercel/speed-insights/astro"
 import Analytics from '@vercel/analytics/astro'
 import '../styles/global.css'
@@ -18,7 +17,7 @@ const { title } = Astro.props;
 <html class="bg-page-100" lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
+		<meta name="description" content="Ciclo Family - Rutas en bicicleta por Catalunya para familias y grupos. Descubre rutas de montaña seguras y disfruta del ciclismo." />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="google-site-verification" content="G5nl4VQUvHU_DD7UoGnpyiq8y4RJS9RGQ0JikrB8G_M" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -28,7 +27,6 @@ const { title } = Astro.props;
 		<!-- <Header /> -->
 		<slot />
 		<Footer />
-		<ClientRouter />
 		<SpeedInsights />
 		<Analytics />
 	</body>
