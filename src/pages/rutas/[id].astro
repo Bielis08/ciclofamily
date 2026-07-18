@@ -1,6 +1,7 @@
 ---
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { supabase } from "../../lib/supabase";
+import { getCached, setCached } from "../../lib/cache";
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
@@ -13,12 +14,21 @@ if (!supabase) {
   return Astro.redirect("/rutas");
 }
 
+const CACHE_KEY_RUTA = `ruta:${id}`;
+const CACHE_KEY_IMAGES = `ruta:${id}:images`;
+
 let ruta;
-try {
-  const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
-  ruta = data;
-} catch (error) {
-  console.error("Error al obtener ruta:", error);
+const cachedRuta = getCached<typeof ruta>(CACHE_KEY_RUTA);
+if (cachedRuta) {
+  ruta = cachedRuta;
+} else {
+  try {
+    const { data } = await supabase.from("rutas").select("*").eq("id", id).single();
+    ruta = data;
+    if (ruta) setCached(CACHE_KEY_RUTA, ruta, 300_000); // 5 min
+  } catch (error) {
+    console.error("Error al obtener ruta:", error);
+  }
 }
 
 if (!ruta) {
@@ -28,13 +38,19 @@ if (!ruta) {
 const { titulo, destino, distancia, desnivel, alt_max, alt_min, gpx, wikiloc, dificultad, portada, descripcion } = ruta;
 
 let images: string[] = [];
-try {
-  const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
-  images = (storageFiles ?? [])
-    .filter((f) => f.name !== portada)
-    .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
-} catch (error) {
-  console.error("Error al obtener imágenes de la ruta:", error);
+const cachedImages = getCached<string[]>(CACHE_KEY_IMAGES);
+if (cachedImages) {
+  images = cachedImages;
+} else {
+  try {
+    const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
+    images = (storageFiles ?? [])
+      .filter((f) => f.name !== portada)
+      .map((f) => `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${f.name}`);
+    setCached(CACHE_KEY_IMAGES, images, 300_000);
+  } catch (error) {
+    console.error("Error al obtener imágenes de la ruta:", error);
+  }
 }
 
 const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
@@ -67,8 +83,7 @@ if (dificultad === "Difícil") {
 }
 ---
 
-<Layout title={titulo}>
-    <title>Ruta en bicicleta: {titulo}</title>
+<Layout title={`Ruta en bicicleta: ${titulo}`}>
     <meta name="description" content={`Descubre la ruta en bicicleta ${titulo}. Una actividad perfecta para explorar ${destino} con una distancia de ${distancia} km y un desnivel de ${desnivel} m.`} />
     <meta name="keywords" content={`rutas en bicicleta, rutas por Catalunya, rutas familiares, ciclismo, turismo en bicicleta, ${destino}, ${titulo}`} />
     <meta property="og:title" content={`Ruta en bicicleta: ${titulo}`} />
