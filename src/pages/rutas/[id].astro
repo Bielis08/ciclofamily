@@ -1,7 +1,7 @@
 ---
-import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import { supabase } from "../../lib/supabase";
 import { getCached, setCached } from "../../lib/cache";
+import { getMarkdownProcessor } from "../../lib/markdown";
 import BtnRutas from "../../components/BtnRutas.astro";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
@@ -55,7 +55,7 @@ if (cachedImages) {
 
 const portadaUrl = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${id}/${portada}`;
 
-const processor = await createMarkdownProcessor();
+const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
 const gpxFileUrl = `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${gpx}`;

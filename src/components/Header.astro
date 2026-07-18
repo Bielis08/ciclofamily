@@ -45,4 +45,22 @@ import logo from "../assets/Logo.webp";
     }
     document.addEventListener('DOMContentLoaded', initMenu);
     document.addEventListener('astro:after-swap', initMenu);
+
+    // Prefetch enlaces al hacer hover
+    function initPrefetch() {
+        const links = document.querySelectorAll('a[href^="/"]');
+        links.forEach(link => {
+            let prefetched = false;
+            link.addEventListener('mouseenter', () => {
+                if (prefetched) return;
+                prefetched = true;
+                const prefetchLink = document.createElement('link');
+                prefetchLink.rel = 'prefetch';
+                prefetchLink.href = link.getAttribute('href');
+                document.head.appendChild(prefetchLink);
+            });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', initPrefetch);
+    document.addEventListener('astro:after-swap', initPrefetch);
 </script>
