@@ -12,9 +12,6 @@ export default defineConfig({
   adapter: vercel({
     maxDuration: 30,
     memory: 512,
-    isr: {
-      expiration: 300,
-    },
   }),
   integrations: [sitemap()],
 
