@@ -15,10 +15,13 @@
     "@astrojs/vercel": "^11.0.3",
     "@supabase/supabase-js": "^2.108.2",
     "@tailwindcss/vite": "^4.1.11",
+    "@tmcw/togeojson": "^7.1.2",
+    "@types/leaflet": "^1.9.21",
     "@vercel/analytics": "^1.4.0",
     "@vercel/speed-insights": "^1.1.0",
     "astro": "7.1.0",
     "fast-xml-parser": "^5.10.1",
+    "leaflet": "^1.9.4",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {

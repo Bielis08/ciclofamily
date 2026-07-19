@@ -41,23 +41,14 @@ const portadaUrl = getRutaImageUrl(id, portada);
 const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
-const gpxOptions = {
-  token: "YOUR_MAPBOX_TOKEN",
-  files: [gpxFileUrl],
-  basemap: "openStreetMap",
-  elevation: { fill: "slope" },
-  distanceMarkers: true,
-  directionMarkers: true,
-  theme: "light"
-};
-const gpxStudioUrl = "https://gpx.studio/embed?options=" + encodeURIComponent(JSON.stringify(gpxOptions));
-
-const color = (() => {
-  if (dificultad === "Fácil") return "facil";
-  if (dificultad === "Moderada") return "moderada";
-  if (dificultad === "Difícil") return "dificil";
-  return "";
-})();
+const dificultadClass =
+  dificultad === "Fácil"
+    ? "bg-facil"
+    : dificultad === "Moderada"
+      ? "bg-moderada"
+      : dificultad === "Difícil"
+        ? "bg-dificil"
+        : "bg-gray-200 text-gray-800";
 
 const pageTitle = `Ciclo Family | ${titulo}`;
 const pageDescription = `Descubre la ruta en bicicleta ${titulo} en ${destino}. ${distancia} km de distancia, ${desnivel} m de desnivel. Dificultad ${dificultad}. Ideal para familias y ciclistas.`;
@@ -148,23 +139,60 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
 
     <section class="flex items-center gap-4 m-4">
       <h1 class="text-2xl font-semibold">{titulo}</h1>
-      <span class={`bg-${color} rounded-xl px-2 py-1`}>{dificultad}</span>
+      <span class={`${dificultadClass} font-medium rounded-xl px-2 py-1`}>{dificultad}</span>
     </section>
 
-    <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
+    <div id="route-map" class="mx-auto z-0 rounded-xl w-full h-100"></div>
 
     <section class="bg-page-200/60 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border">
-        <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia} km</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel} m</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
+        <span class="flex items-center gap-1 mx-auto"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia} km</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel} m</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
       </section>
 
       <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
         <a href={gpxFileUrl} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
         <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
       </section>
+
+      <div id="mapa-leaflet-scripts">
+        <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+        <script is:inline src="https://unpkg.com/@tmcw/togeojson@7.1.2/dist/togeojson.umd.js" crossorigin=""></script>
+        <script define:vars={{ gpx, gpxFileUrl }} is:inline>
+          document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/gpx-altitudes?gpx=' + encodeURIComponent(gpx))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (data.altMax != null) document.getElementById('alt-max').textContent = data.altMax + ' m';
+                if (data.altMin != null) document.getElementById('alt-min').textContent = data.altMin + ' m';
+              })
+              .catch(function() {});
+
+            var map = L.map('route-map').setView([41.5, 2.0], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            fetch(gpxFileUrl)
+              .then(function(r) { return r.text(); })
+              .then(function(gpxText) {
+                var parser = new DOMParser();
+                var gpxDoc = parser.parseFromString(gpxText, 'text/xml');
+                var geojson = toGeoJSON.gpx(gpxDoc);
+
+                var routeLayer = L.geoJSON(geojson, {
+                  style: { color: '#3b82f6', weight: 4, opacity: 0.8 }
+                }).addTo(map);
+
+                map.fitBounds(routeLayer.getBounds(), { padding: [20, 20] });
+              })
+              .catch(function() {});
+          });
+        </script>
+      </div>
+      
   </main>
   <!-- <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
     <nav aria-label="Breadcrumb" class="text-sm text-gray-600 mx-8 pt-4">
@@ -221,15 +249,4 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
       )}
     </div>
   </main> -->
-  <script define:vars={{ gpx }} is:inline>
-    requestAnimationFrame(() => {
-      fetch(`/api/gpx-altitudes?gpx=${encodeURIComponent(gpx)}`)
-        .then(r => r.json())
-        .then(data => {
-          if (data.altMax != null) document.getElementById("alt-max").textContent = data.altMax + " m";
-          if (data.altMin != null) document.getElementById("alt-min").textContent = data.altMin + " m";
-        })
-        .catch(() => {});
-    });
-  </script>
 </Layout>
