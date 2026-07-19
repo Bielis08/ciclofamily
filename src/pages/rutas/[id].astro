@@ -53,13 +53,13 @@ const gpxOptions = {
 const gpxStudioUrl = "https://gpx.studio/embed?options=" + encodeURIComponent(JSON.stringify(gpxOptions));
 
 const color = (() => {
-  if (dificultad === "Fácil") return "bg-facil";
-  if (dificultad === "Moderada") return "bg-moderada";
-  if (dificultad === "Difícil") return "bg-dificil";
+  if (dificultad === "Fácil") return "facil";
+  if (dificultad === "Moderada") return "moderada";
+  if (dificultad === "Difícil") return "dificil";
   return "";
 })();
 
-const pageTitle = `Ruta en Bicicleta: ${titulo} | Ciclo Family`;
+const pageTitle = `Ciclo Family | ${titulo}`;
 const pageDescription = `Descubre la ruta en bicicleta ${titulo} en ${destino}. ${distancia} km de distancia, ${desnivel} m de desnivel. Dificultad ${dificultad}. Ideal para familias y ciclistas.`;
 const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
 ---
@@ -134,8 +134,39 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
   })} />
 
   <Header />
-  <BtnRutas />
-  <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
+  
+  <main class="w-[90%] m-auto">
+    <nav aria-label="Breadcrumb" class="text-sm text-gray-600 mx-8 pt-4">
+      <ol class="flex items-center gap-1">
+        <li><a href="/" class="hover:underline hover:text-page-400 transition">Inicio</a></li>
+        <li aria-hidden="true" class="text-gray-400">›</li>
+        <li><a href="/rutas" class="hover:underline hover:text-page-400 transition">Rutas</a></li>
+        <li aria-hidden="true" class="text-gray-400">›</li>
+        <li class="text-page-400 font-medium">{titulo}</li>
+      </ol>
+    </nav>
+
+    <section class="flex items-center gap-4 m-4">
+      <h1 class="text-2xl font-semibold">{titulo}</h1>
+      <span class={`bg-${color} rounded-xl px-2 py-1`}>{dificultad}</span>
+    </section>
+
+    <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
+
+    <section class="bg-page-200/60 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border">
+        <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia} km</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel} m</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
+        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
+      </section>
+
+      <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
+        <a href={gpxFileUrl} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
+        <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
+      </section>
+  </main>
+  <!-- <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
     <nav aria-label="Breadcrumb" class="text-sm text-gray-600 mx-8 pt-4">
       <ol class="flex items-center gap-1">
         <li><a href="/" class="hover:underline hover:text-page-400 transition">Inicio</a></li>
@@ -189,7 +220,7 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
       </p>
       )}
     </div>
-  </main>
+  </main> -->
   <script define:vars={{ gpx }} is:inline>
     requestAnimationFrame(() => {
       fetch(`/api/gpx-altitudes?gpx=${encodeURIComponent(gpx)}`)
