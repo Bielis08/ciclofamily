@@ -41,25 +41,16 @@ const portadaUrl = getRutaImageUrl(id, portada);
 const processor = await getMarkdownProcessor();
 const { code: descripcionHtml } = await processor.render(descripcion);
 
-const gpxOptions = {
-  token: "YOUR_MAPBOX_TOKEN",
-  files: [gpxFileUrl],
-  basemap: "openStreetMap",
-  elevation: { fill: "slope" },
-  distanceMarkers: true,
-  directionMarkers: true,
-  theme: "light"
-};
-const gpxStudioUrl = "https://gpx.studio/embed?options=" + encodeURIComponent(JSON.stringify(gpxOptions));
+const dificultadClass =
+  dificultad === "Fácil"
+    ? "bg-facil"
+    : dificultad === "Moderada"
+      ? "bg-moderada"
+      : dificultad === "Difícil"
+        ? "bg-dificil"
+        : "bg-gray-200 text-gray-800";
 
-const color = (() => {
-  if (dificultad === "Fácil") return "bg-facil";
-  if (dificultad === "Moderada") return "bg-moderada";
-  if (dificultad === "Difícil") return "bg-dificil";
-  return "";
-})();
-
-const pageTitle = `Ruta en Bicicleta: ${titulo} | Ciclo Family`;
+const pageTitle = `Ciclo Family | ${titulo}`;
 const pageDescription = `Descubre la ruta en bicicleta ${titulo} en ${destino}. ${distancia} km de distancia, ${desnivel} m de desnivel. Dificultad ${dificultad}. Ideal para familias y ciclistas.`;
 const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
 ---
@@ -134,8 +125,8 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
   })} />
 
   <Header />
-  <BtnRutas />
-  <main class="mx-auto sm:rounded-xl -mt-8 md:mt-26 -mb-12 md:mb-6 pb-8 max-w-[1200px] bg-page-200/30 text-black bg-opacity-50">
+  
+  <main class="w-[90%] m-auto">
     <nav aria-label="Breadcrumb" class="text-sm text-gray-600 mx-8 pt-4">
       <ol class="flex items-center gap-1">
         <li><a href="/" class="hover:underline hover:text-page-400 transition">Inicio</a></li>
@@ -146,59 +137,246 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
       </ol>
     </nav>
 
-    <img class="w-full h-96 md:h-[600px] sm:rounded-t-xl top-0 object-cover" src={portadaUrl} alt={`Fotografía de la ruta ${titulo} en ${destino}`} loading="lazy" width="1200" height="600" />
+    <section class="flex items-center gap-4 m-4">
+      <h1 class="text-2xl font-semibold">{titulo}</h1>
+      <span class={`${dificultadClass} font-medium rounded-xl px-2 py-1`}>{dificultad}</span>
+    </section>
 
-    <div class="mx-8">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <h1 class="font-bold text-2xl sm:text-3xl my-4">{titulo}</h1>
-        <span id="dificultad" class={`${color} rounded-2xl h-10 p-2 font-medium`}>{dificultad}</span>
+    <div id="route-map-wrapper" class="route-map-wrapper z-0">
+      <div id="route-map" class="w-full flex-1"></div>
+      <button id="fullscreen-btn" class="fullscreen-map-btn" type="button" title="Pantalla completa">
+        <svg id="fs-icon-expand" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        <svg id="fs-icon-shrink" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+      </button>
+
+      <button id="elevation-toggle" class="elevation-toggle-btn z-0" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <span>Perfil de elevación</span>
+        <svg id="elevation-arrow" class="elevation-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+
+      <div id="elevation-profile" class="elevation-profile-hidden">
+        <div id="elevation-div"></div>
       </div>
-      <section class="mx-0 sm:mx-8 bg-page-500 bg-opacity-40 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border-dashed border-2">
-        <span class="flex items-center gap-1 mx-auto font-medium"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b>{distancia} km</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b>{desnivel} m</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
-        <span class="flex gap-1 items-center mx-auto font-medium"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
+    </div>
+
+    <section class="bg-page-200/60 p-4 flex flex-wrap gap-4 rounded-xl my-2 sm:my-6 border-black border">
+        <span class="flex items-center gap-1 mx-auto"><img class="size-7" src="/icons/ubicacion.svg" alt="Icono de ubicación"/><span class="flex flex-col sm:mx-2">Destino<b>{destino}</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/distancia.svg" alt="Icono de distancia"/><span class="flex flex-col sm:mx-2">Distancia<b id="stat-distancia">{distancia} km</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/desnivel.svg" alt="Icono de desnivel"/><span class="flex flex-col sm:mx-2">Desnivel<b id="stat-desnivel">{desnivel} m</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/max.svg" alt="Icono de altitud máxima"/><span class="flex flex-col sm:mx-2">Altitud Máx<b id="alt-max">...</b></span></span>
+        <span class="flex gap-1 items-center mx-auto"><img class="size-7" src="/icons/min.svg" alt="Icono de altitud mínima"/><span class="flex flex-col sm:mx-2">Altitud Mín<b id="alt-min">...</b></span></span>
       </section>
+
       <section class="flex flex-row gap-4 items-center text-sm sm:text-lg mt-4 sm:my-0">
         <a href={gpxFileUrl} class="bg-page-300/80 px-4 py-2 rounded-lg hover:bg-page-200 transition flex" target="_blank" rel="noopener noreferrer">Descargar GPX</a>
         <a href={wikiloc} class="bg-page-400 text-white hover:text-black rounded-lg py-2 px-4 hover:bg-page-200 transition flex items-center" target="_blank">Ver en <img class="ml-1 h-4 md:h-6" src="/Wikiloc.png" alt="Logo de Wikiloc" /></a>
       </section>
-      <article class="mt-8 prose"><Fragment set:html={descripcionHtml} /></article>
-      <h2 class="font-semibold text-2xl my-6">Mapa de la Ruta</h2>
-      <iframe title="Mapa de la ruta con puntos de interés y desnivel" class="mx-auto rounded-xl w-[85%] md:w-[90%]" src={gpxStudioUrl} width="100%" height="600px" style="outline: none;" loading="lazy" />
-      <h2 class="font-semibold text-2xl my-6">Fotos de la ruta</h2>
-      {images.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
-          {images.map((img) => (
-          <a href={img} target="_blank" rel="noopener noreferrer">
-              <img
-              src={img}
-              alt={`Imagen de la ruta ${titulo} en ${destino} - Ciclo Family`}
-              class="rounded-xl object-cover w-full h-64 md:hover:scale-150 transition"
-              loading="lazy"
-              width="384"
-              height="256"
-              />
-          </a>
-          ))}
+
+      <div id="mapa-leaflet-scripts">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.css" />
+        <link rel="stylesheet" href="https://unpkg.com/@raruto/leaflet-elevation@2.5.2/dist/leaflet-elevation.css" />
+        <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+        <script is:inline src="https://unpkg.com/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.js"></script>
+        <script is:inline src="https://unpkg.com/@tmcw/togeojson@7.1.2/dist/togeojson.umd.js" crossorigin=""></script>
+        <script is:inline src="https://unpkg.com/leaflet-gpx@2.2.0/gpx.js" crossorigin=""></script>
+        <script is:inline src="https://unpkg.com/@raruto/leaflet-elevation@2.5.2/dist/leaflet-elevation.js" crossorigin=""></script>
+        <script define:vars={{ gpx, gpxFileUrl }} is:inline>
+          document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('route-map', {
+              fullscreenControl: true,
+              fullscreenControlOptions: { position: 'topright' }
+            }).setView([41.5, 2.0], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var elevationControl = L.control.elevation({
+              detached: true,
+              elevationDiv: '#elevation-div',
+              theme: 'lightblue-theme',
+              hotline: 'elevation',
+              altitude: true,
+              distance: true,
+              time: true,
+              summary: 'inline',
+              collapsed: false,
+              closeBtn: true,
+              downloadLink: false,
+              autofitBounds: true,
+              height: 180,
+              margins: { top: 20, right: 20, bottom: 25, left: 50 },
+              xLabel: 'km',
+              yLabel: 'm',
+              srcFolder: 'https://unpkg.com/@raruto/leaflet-elevation@2.5.2/src/'
+            }).addTo(map);
+
+            var THRESHOLD = 3;
+            var lastValidElev = null;
+            var customAscent = 0;
+            elevationControl.on('elepoint_added', function(e) {
+              var idx = e.index;
+              var data = elevationControl._data;
+              if (data[idx]) {
+                var currElev = data[idx].z;
+                if (lastValidElev === null) {
+                  lastValidElev = currElev;
+                } else {
+                  var diff = currElev - lastValidElev;
+                  if (diff >= THRESHOLD) {
+                    customAscent += diff;
+                    lastValidElev = currElev;
+                  } else if (diff <= -THRESHOLD) {
+                    lastValidElev = currElev;
+                  }
+                }
+              }
+            });
+
+            elevationControl.load(gpxFileUrl);
+
+            function haversine(lat1, lon1, lat2, lon2) {
+              var R = 6371;
+              var dLat = (lat2 - lat1) * Math.PI / 180;
+              var dLon = (lon2 - lon1) * Math.PI / 180;
+              var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+              return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            }
+
+            function updateStatsFromTrackInfo() {
+              var info = elevationControl.track_info || {};
+              var gain = Math.round(customAscent || 0);
+              var altMax = Math.round(info.elevation_max || 0);
+              var altMin = Math.round(info.elevation_min || 0);
+
+              var data = elevationControl._data || [];
+              var totalDist = 0;
+              for (var i = 1; i < data.length; i++) {
+                totalDist += haversine(
+                  data[i - 1].latlng.lat, data[i - 1].latlng.lng,
+                  data[i].latlng.lat, data[i].latlng.lng
+                );
+              }
+              var distKm = totalDist.toFixed(1);
+
+              var distEl = document.getElementById('stat-distancia');
+              if (distEl) distEl.textContent = distKm + ' km';
+
+              var gainEl = document.getElementById('stat-desnivel');
+              if (gainEl) gainEl.textContent = gain + ' m';
+
+              var maxEl = document.getElementById('alt-max');
+              if (maxEl) maxEl.textContent = altMax + ' m';
+
+              var minEl = document.getElementById('alt-min');
+              if (minEl) minEl.textContent = altMin + ' m';
+            }
+
+            elevationControl.on('elechart_summary', function() {
+              updateStatsFromTrackInfo();
+            });
+
+            elevationControl.on('eledata_loaded', function() {
+              setTimeout(updateStatsFromTrackInfo, 200);
+            });
+
+            map.on('click', function(e) {
+              if (!elevationControl._data || !elevationControl._data.length) return;
+              var data = elevationControl._data;
+              var minDist = Infinity, nearest = null, nearestIdx = 0;
+              for (var i = 0; i < data.length; i++) {
+                var dx = e.latlng.lat - data[i].latlng.lat;
+                var dy = e.latlng.lng - data[i].latlng.lng;
+                var d = dx * dx + dy * dy;
+                if (d < minDist) { minDist = d; nearest = data[i]; nearestIdx = i; }
+              }
+              if (nearest && nearest.z != null) {
+                var dist = 0;
+                for (var i = 1; i <= nearestIdx; i++) {
+                  dist += haversine(
+                    data[i - 1].latlng.lat, data[i - 1].latlng.lng,
+                    data[i].latlng.lat, data[i].latlng.lng
+                  );
+                }
+                var distKm = dist.toFixed(2);
+                L.popup()
+                  .setLatLng(e.latlng)
+                  .setContent('<div class="route-popup"><strong>' + nearest.z.toFixed(0) + ' m</strong><br><small>' + distKm + ' km</small></div>')
+                  .openOn(map);
+              }
+            });
+
+            var toggleBtn = document.getElementById('elevation-toggle');
+            var profileContainer = document.getElementById('elevation-profile');
+            var arrow = document.getElementById('elevation-arrow');
+            if (toggleBtn && profileContainer) {
+              toggleBtn.addEventListener('click', function() {
+                var isHidden = profileContainer.classList.contains('elevation-profile-hidden');
+                profileContainer.classList.toggle('elevation-profile-hidden');
+                profileContainer.classList.toggle('elevation-profile-visible');
+                if (arrow) arrow.classList.toggle('elevation-arrow-rotated');
+                map.invalidateSize();
+                if (isHidden && elevationControl) {
+                  setTimeout(function() { elevationControl.redraw(); }, 100);
+                }
+              });
+            }
+
+            var fsBtn = document.getElementById('fullscreen-btn');
+            var fsExpand = document.getElementById('fs-icon-expand');
+            var fsShrink = document.getElementById('fs-icon-shrink');
+            var wrapper = document.getElementById('route-map-wrapper');
+
+            function enterFullscreen() {
+              wrapper.requestFullscreen().then(function() {
+                wrapper.classList.add('map-fullscreen');
+                if (profileContainer && profileContainer.classList.contains('elevation-profile-hidden')) {
+                  profileContainer.classList.remove('elevation-profile-hidden');
+                  profileContainer.classList.add('elevation-profile-visible');
+                  if (arrow) arrow.classList.add('elevation-arrow-rotated');
+                  if (elevationControl) setTimeout(function() { elevationControl.redraw(); }, 150);
+                }
+                map.invalidateSize();
+                if (fsExpand) fsExpand.style.display = 'none';
+                if (fsShrink) fsShrink.style.display = 'block';
+              }).catch(function() {});
+            }
+
+            function exitFullscreen() {
+              document.exitFullscreen().then(function() {
+                wrapper.classList.remove('map-fullscreen');
+                map.invalidateSize();
+                if (elevationControl) setTimeout(function() { elevationControl.redraw(); }, 150);
+                if (fsExpand) fsExpand.style.display = 'block';
+                if (fsShrink) fsShrink.style.display = 'none';
+              }).catch(function() {});
+            }
+
+            if (fsBtn && wrapper) {
+              fsBtn.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                  enterFullscreen();
+                } else {
+                  exitFullscreen();
+                }
+              });
+
+              document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                  wrapper.classList.remove('map-fullscreen');
+                  map.invalidateSize();
+                  if (elevationControl) setTimeout(function() { elevationControl.redraw(); }, 150);
+                  if (fsExpand) fsExpand.style.display = 'block';
+                  if (fsShrink) fsShrink.style.display = 'none';
+                }
+              });
+            }
+          });
+        </script>
       </div>
-      ) : (
-      <p class="text-center text-lg text-gray-600 italic my-6">
-          No hay fotos disponibles para esta ruta. Estamos trabajando en ello.
-      </p>
-      )}
-    </div>
+      
   </main>
-  <script define:vars={{ gpx }} is:inline>
-    requestAnimationFrame(() => {
-      fetch(`/api/gpx-altitudes?gpx=${encodeURIComponent(gpx)}`)
-        .then(r => r.json())
-        .then(data => {
-          if (data.altMax != null) document.getElementById("alt-max").textContent = data.altMax + " m";
-          if (data.altMin != null) document.getElementById("alt-min").textContent = data.altMin + " m";
-        })
-        .catch(() => {});
-    });
-  </script>
 </Layout>
