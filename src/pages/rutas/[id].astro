@@ -212,13 +212,25 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
               srcFolder: 'https://unpkg.com/@raruto/leaflet-elevation@2.5.2/src/'
             }).addTo(map);
 
-            elevationControl._customAscent = 0;
+            var THRESHOLD = 3;
+            var lastValidElev = null;
+            var customAscent = 0;
             elevationControl.on('elepoint_added', function(e) {
               var idx = e.index;
               var data = elevationControl._data;
-              if (idx > 0 && data[idx] && data[idx - 1]) {
-                var dz = data[idx].z - data[idx - 1].z;
-                if (dz > 0) elevationControl._customAscent += dz;
+              if (data[idx]) {
+                var currElev = data[idx].z;
+                if (lastValidElev === null) {
+                  lastValidElev = currElev;
+                } else {
+                  var diff = currElev - lastValidElev;
+                  if (diff >= THRESHOLD) {
+                    customAscent += diff;
+                    lastValidElev = currElev;
+                  } else if (diff <= -THRESHOLD) {
+                    lastValidElev = currElev;
+                  }
+                }
               }
             });
 
@@ -236,7 +248,7 @@ const canonicalUrl = `${Astro.url.origin}/rutas/${id}`;
 
             function updateStatsFromTrackInfo() {
               var info = elevationControl.track_info || {};
-              var gain = Math.round(elevationControl._customAscent || 0);
+              var gain = Math.round(customAscent || 0);
               var altMax = Math.round(info.elevation_max || 0);
               var altMin = Math.round(info.elevation_min || 0);
 
