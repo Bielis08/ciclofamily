@@ -1,0 +1,158 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+
+interface Ruta {
+  id: string;
+  titulo: string;
+  destino: string;
+  distancia: number;
+  desnivel: number;
+  dificultad: string;
+  portada: string;
+}
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+
+let rutas: Ruta[] = [];
+try {
+  const res = await fetch(`${Astro.url.origin}/api/admin/rutas`, {
+    headers: { cookie: Astro.request.headers.get("cookie") || "" },
+  });
+  if (res.ok) {
+    rutas = await res.json();
+  }
+} catch (e) {
+  console.error("Error loading rutas:", e);
+}
+---
+
+<AdminLayout title="Rutas - Admin">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <h1 class="text-2xl font-bold">Rutas</h1>
+    <a
+      href="/admin/rutas/nueva"
+      class="inline-flex items-center justify-center gap-2 bg-page-300 text-white px-4 py-2.5 rounded-lg hover:bg-page-400 transition font-medium text-sm"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      Nueva ruta
+    </a>
+  </div>
+
+  {rutas.length === 0 ? (
+    <div class="text-center py-12 text-gray-500">
+      <p class="text-lg">No hay rutas todavía</p>
+      <a href="/admin/rutas/nueva" class="text-page-300 hover:underline mt-2 inline-block">Crear primera ruta</a>
+    </div>
+  ) : (
+    <div class="space-y-3">
+      {rutas.map((ruta) => {
+        const portadaUrl = ruta.portada
+          ? `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${ruta.id}/${ruta.portada}`
+          : "/placeholder-ruta.svg";
+        const dificultadColor =
+          ruta.dificultad === "Fácil" ? "bg-[#40E973]" :
+          ruta.dificultad === "Moderada" ? "bg-[#FD8E33]" :
+          "bg-[#FF2F2F]";
+
+        return (
+          <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+            <img
+              src={portadaUrl}
+              alt={ruta.titulo}
+              class="w-full sm:w-20 h-32 sm:h-20 object-cover rounded-lg bg-gray-100"
+              loading="lazy"
+              onerror="this.src='/placeholder-ruta.svg'"
+            />
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-semibold text-lg truncate">{ruta.titulo}</h3>
+                <span class={`${dificultadColor} text-white text-xs font-medium px-2 py-0.5 rounded-full`}>{ruta.dificultad}</span>
+              </div>
+              <p class="text-gray-500 text-sm">{ruta.destino} · {ruta.distancia} km · {ruta.desnivel} m</p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+              <a
+                href={`/admin/rutas/${ruta.id}`}
+                class="px-3 py-2 bg-page-200 text-page-400 rounded-lg hover:bg-page-300 hover:text-white transition text-sm font-medium"
+              >
+                Editar
+              </a>
+              <button
+                class="delete-btn px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition text-sm font-medium"
+                data-id={ruta.id}
+                data-title={ruta.titulo}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  )}
+
+  <!-- Delete confirmation modal -->
+  <div id="delete-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+      <h3 class="text-lg font-semibold mb-2">¿Eliminar ruta?</h3>
+      <p class="text-gray-600 mb-6">Se eliminará <span id="delete-ruta-name" class="font-medium"></span> y todos sus archivos (imágenes y GPX). Esta acción no se puede deshacer.</p>
+      <div class="flex gap-3 justify-end">
+        <button id="cancel-delete" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">Cancelar</button>
+        <button id="confirm-delete" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  let deleteId = "";
+
+  document.querySelectorAll(".delete-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      deleteId = btn.getAttribute("data-id")!;
+      const title = btn.getAttribute("data-title");
+      document.getElementById("delete-ruta-name")!.textContent = title;
+      document.getElementById("delete-modal")!.classList.remove("hidden");
+    });
+  });
+
+  document.getElementById("cancel-delete")!.addEventListener("click", () => {
+    document.getElementById("delete-modal")!.classList.add("hidden");
+    deleteId = "";
+  });
+
+  document.getElementById("delete-modal")!.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) {
+      document.getElementById("delete-modal")!.classList.add("hidden");
+      deleteId = "";
+    }
+  });
+
+  document.getElementById("confirm-delete")!.addEventListener("click", async () => {
+    if (!deleteId) return;
+    const btn = document.getElementById("confirm-delete") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Eliminando...";
+
+    try {
+      const res = await fetch("/api/admin/rutas", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rutaId: deleteId }),
+      });
+
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        const data = await res.json();
+        alert("Error: " + (data.error || "No se pudo eliminar"));
+      }
+    } catch {
+      alert("Error de conexión");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Eliminar";
+      document.getElementById("delete-modal")!.classList.add("hidden");
+    }
+  });
+</script>

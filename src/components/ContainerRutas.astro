@@ -21,11 +21,11 @@ const { rutas = [] } = Astro.props as { rutas: Ruta[] };
             rutas.map(ruta => {
                 const { id, portada, titulo, destino, distancia, desnivel, dificultad } = ruta
                 const dificultadPunto = getDificultadColor(dificultad);
-                const imagenUrl = getRutaImageUrl(id, portada);
+                const imagenUrl = portada ? getRutaImageUrl(id, portada) : "/placeholder-ruta.svg";
 
                 return (
                     <a href={`/rutas/${id}`} class="max-w-96 h-fit rounded-xl bg-page-500 border-page-400 border-dashed border-2 hover:scale-105 transition text-black">
-                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={imagenUrl} alt={`Imagen de ${titulo}`} loading="lazy" />
+                        <img class="w-full h-52 rounded-t-xl top-0 object-cover" src={imagenUrl} alt={`Imagen de ${titulo}`} loading="lazy" onerror="this.src='/placeholder-ruta.svg'" />
                         <div class="m-4">
                             <h1 class="text-xl font-bold mt-8 mb-4">{titulo}</h1>
                             <span class="flex items-center font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2" src="/icons/ubicacion.svg" alt="">{destino}</span>
