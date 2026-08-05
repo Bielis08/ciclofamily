@@ -14,6 +14,7 @@
     "@astrojs/sitemap": "3.7.3",
     "@astrojs/vercel": "^11.0.3",
     "@raruto/leaflet-elevation": "^2.5.2",
+    "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.108.2",
     "@tailwindcss/vite": "^4.1.11",
     "@tmcw/togeojson": "^7.1.2",

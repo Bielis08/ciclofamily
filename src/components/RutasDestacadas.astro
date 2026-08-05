@@ -16,11 +16,11 @@ const rutasDestacadas = allRutas.slice(0, 3);
             rutasDestacadas.map(ruta => {
                 const { id, portada, titulo, destino, dificultad } = ruta
                 const dificultadPunto = getDificultadColor(dificultad);
-                const imagenUrl = getRutaImageUrl(id, portada);
+                const imagenUrl = portada ? getRutaImageUrl(id, portada) : "/placeholder-ruta.svg";
 
                 return (
                     <article class="w-96 h-fit rounded-xl text-black bg-page-500 border-2 border-dashed border-page-400 overflow-hidden">
-                        <img class="w-full h-52 top-0 object-cover" src={imagenUrl} alt={`Imagen de ${titulo}`} loading="lazy" />
+                        <img class="w-full h-52 top-0 object-cover" src={imagenUrl} alt={`Imagen de ${titulo}`} loading="lazy" onerror="this.src='/placeholder-ruta.svg'" />
                         <div class="m-4">
                             <h1 class="text-xl font-bold my-4">{titulo}</h1>
                             <span class="flex items-center text-black font-semibold mb-4 w-fit px-2 py-1 rounded-xl bg-page-200"><img class="size-5 mr-2 -mt-[2px]" src="/icons/ubicacion.svg" alt="">{destino}</span>

@@ -1,0 +1,391 @@
+---
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/admin/rutas");
+}
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+
+let ruta = null;
+let images: string[] = [];
+
+if (supabaseUrl && supabaseServiceKey) {
+  const { createClient } = await import("@supabase/supabase-js");
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+  const { data } = await supabase
+    .from("rutas")
+    .select("id, titulo, destino, distancia, desnivel, dificultad, gpx, wikiloc, portada, descripcion")
+    .eq("id", id)
+    .single();
+
+  ruta = data;
+
+  if (ruta) {
+    const { data: storageFiles } = await supabase.storage.from("rutas-imagenes").list(id);
+    images = (storageFiles ?? []).map((f) => f.name);
+  }
+}
+
+if (!ruta) {
+  return Astro.redirect("/admin/rutas");
+}
+
+const gpxUrl = ruta.gpx ? `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${ruta.gpx}` : "";
+---
+
+<AdminLayout title={`Editar ${ruta.titulo} - Admin`}>
+  <div class="mb-6">
+    <a href="/admin/rutas" class="text-page-300 hover:underline text-sm inline-flex items-center gap-1">
+      ← Volver a rutas
+    </a>
+  </div>
+
+  <h1 class="text-2xl font-bold mb-6">Editar: {ruta.titulo}</h1>
+
+  <div id="error-msg" class="hidden bg-red-50 border border-red-300 text-red-700 rounded-lg px-4 py-3 mb-4"></div>
+
+  <form id="ruta-form" class="space-y-6">
+    <input type="hidden" name="id" value={id} />
+    <input type="hidden" id="imageOrder" name="imageOrder" value={images.join(",")} />
+
+    <!-- Datos basicos -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5">
+      <h2 class="font-semibold text-lg mb-4">Datos de la ruta</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="sm:col-span-2">
+          <label for="titulo" class="block text-sm font-medium text-gray-700 mb-1">Titulo *</label>
+          <input type="text" id="titulo" name="titulo" value={ruta.titulo} required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none" />
+        </div>
+        <div>
+          <label for="destino" class="block text-sm font-medium text-gray-700 mb-1">Destino *</label>
+          <input type="text" id="destino" name="destino" value={ruta.destino} required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none" />
+        </div>
+        <div>
+          <label for="dificultad" class="block text-sm font-medium text-gray-700 mb-1">Dificultad *</label>
+          <select id="dificultad" name="dificultad" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none">
+            <option value="Facil" selected={ruta.dificultad === "Facil"}>Facil</option>
+            <option value="Moderada" selected={ruta.dificultad === "Moderada"}>Moderada</option>
+            <option value="Dificil" selected={ruta.dificultad === "Dificil"}>Dificil</option>
+          </select>
+        </div>
+        <div>
+          <label for="distancia" class="block text-sm font-medium text-gray-700 mb-1">Distancia (km)</label>
+          <input type="number" step="0.1" id="distancia" name="distancia" value={ruta.distancia} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none" />
+        </div>
+        <div>
+          <label for="desnivel" class="block text-sm font-medium text-gray-700 mb-1">Desnivel (m)</label>
+          <input type="number" id="desnivel" name="desnivel" value={ruta.desnivel} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none" />
+        </div>
+        <div class="sm:col-span-2">
+          <label for="wikiloc" class="block text-sm font-medium text-gray-700 mb-1">URL Wikiloc</label>
+          <input type="url" id="wikiloc" name="wikiloc" value={ruta.wikiloc} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none" />
+        </div>
+        <div class="sm:col-span-2">
+          <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">Descripcion (Markdown)</label>
+          <textarea id="descripcion" name="descripcion" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-page-300 focus:border-page-300 outline-none font-mono text-sm">{ruta.descripcion}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Archivos -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5">
+      <h2 class="font-semibold text-lg mb-4">Archivos</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          {gpxUrl && (
+            <div class="mb-3">
+              <label class="block text-sm font-medium text-gray-700 mb-1">GPX actual</label>
+              <a href={gpxUrl} target="_blank" class="text-page-300 hover:underline text-sm">{ruta.gpx}</a>
+            </div>
+          )}
+          <label for="gpx" class="block text-sm font-medium text-gray-700 mb-1">Cambiar GPX</label>
+          <input type="file" id="gpx" name="gpx" accept=".gpx" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-page-200 file:text-page-400 hover:file:bg-page-300 file:cursor-pointer" />
+          <p id="gpx-name" class="text-xs text-gray-500 mt-1"></p>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Imagenes</label>
+          <p class="text-xs text-gray-500 mb-2">La primera imagen es la portada. Arrastra para reordenar.</p>
+          <input type="file" id="galeria" name="galeria" accept="image/*" multiple class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-page-200 file:text-page-400 hover:file:bg-page-300 file:cursor-pointer" />
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-3" id="all-images"></div>
+          <input type="hidden" id="deleteImages" name="deleteImages" value="" />
+          <input type="hidden" id="imageOrder" name="imageOrder" value={images.join(",")} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="flex gap-3">
+      <button type="submit" id="submit-btn" class="bg-page-400 text-white px-6 py-2.5 rounded-lg hover:bg-page-300 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+        Guardar cambios
+      </button>
+      <a href="/admin/rutas" class="px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition font-medium text-gray-700">
+        Cancelar
+      </a>
+    </div>
+  </form>
+
+  <!-- Confirm modal -->
+  <div id="confirm-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+      <h3 class="text-lg font-semibold mb-2">Guardar cambios?</h3>
+      <p class="text-gray-600 mb-6">Se actualizaran los datos de la ruta.</p>
+      <div class="flex gap-3 justify-end">
+        <button id="cancel-confirm" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">Cancelar</button>
+        <button id="do-confirm" class="px-4 py-2 bg-page-400 text-white rounded-lg hover:bg-page-300 transition font-medium">Guardar</button>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<style>
+  .draggable-image {
+    transition: transform 0.2s cubic-bezier(.25,.8,.25,1), box-shadow 0.2s ease, opacity 0.2s ease;
+    border: 2px solid transparent;
+  }
+  .draggable-image:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .draggable-image.drag-source {
+    opacity: 0.35;
+    transform: scale(0.92);
+    box-shadow: 0 0 0 2px #3cc347;
+  }
+  .draggable-image.drag-over {
+    outline: 2.5px dashed #3cc347;
+    outline-offset: 3px;
+    transform: scale(1.05);
+    background: rgba(60,195,71,0.08);
+  }
+  .drag-ghost { position: fixed; pointer-events: none; z-index: 9999; opacity: 0.85; transform: rotate(3deg) scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.25); border-radius: 0.5rem; }
+  .touch-dragging {
+    position: fixed; z-index: 9999; pointer-events: none;
+    opacity: 0.92; transform: scale(1.1) rotate(2deg);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35), 0 0 0 2px rgba(60,195,71,0.5);
+    border-radius: 0.5rem;
+    transition: none;
+  }
+</style>
+
+<script>
+  const form = document.getElementById("ruta-form") as HTMLFormElement;
+  const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+  const errorDiv = document.getElementById("error-msg")!;
+  const deleteImagesInput = document.getElementById("deleteImages") as HTMLInputElement;
+  const imageOrderInput = document.getElementById("imageOrder") as HTMLInputElement;
+  const rutaId = (document.querySelector('input[name="id"]') as HTMLInputElement).value;
+  const supabaseUrl = "https://uoazoekhdiuwrywoikxy.supabase.co";
+
+  type ImageItem = { type: "existing"; filename: string } | { type: "new"; file: File; previewUrl: string };
+  let allImages: ImageItem[] = imageOrderInput.value.split(",").filter(Boolean).map((f) => ({ type: "existing", filename: f }));
+  const deletedFiles: string[] = [];
+
+  function rebuildAllImages() {
+    const container = document.getElementById("all-images")!;
+    container.innerHTML = "";
+
+    if (allImages.length === 0) {
+      container.innerHTML = '<div class="text-sm text-gray-400 col-span-full py-4 text-center">No hay imagenes - se usara placeholder</div>';
+      return;
+    }
+
+    allImages.forEach((item, idx) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "relative group cursor-grab active:cursor-grabbing draggable-image";
+      wrapper.dataset.index = String(idx);
+      wrapper.draggable = true;
+
+      const img = document.createElement("img");
+      img.className = "w-full h-24 object-cover rounded-lg pointer-events-none bg-gray-100";
+      if (item.type === "existing") {
+        img.src = `${supabaseUrl}/storage/v1/object/public/rutas-imagenes/${rutaId}/${item.filename}`;
+        img.alt = item.filename;
+      } else {
+        img.alt = item.file.name;
+        const reader = new FileReader();
+        reader.onload = (ev) => { img.src = ev.target!.result as string; };
+        reader.readAsDataURL(item.file);
+      }
+      wrapper.appendChild(img);
+
+      if (idx === 0) {
+        const badge = document.createElement("span");
+        badge.className = "absolute top-1 left-1 bg-page-300 text-white text-[10px] px-1.5 py-0.5 rounded pointer-events-none z-10";
+        badge.textContent = "Portada";
+        wrapper.appendChild(badge);
+      }
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition";
+      removeBtn.textContent = "\u00d7";
+      wrapper.appendChild(removeBtn);
+
+      container.appendChild(wrapper);
+
+      removeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (item.type === "existing") {
+          deletedFiles.push(`${rutaId}/${item.filename}`);
+          deleteImagesInput.value = deletedFiles.join(",");
+        } else if (item.previewUrl) {
+          URL.revokeObjectURL(item.previewUrl);
+        }
+        allImages.splice(idx, 1);
+        rebuildAllImages();
+      });
+
+      wrapper.addEventListener("dragstart", (e) => {
+        wrapper.classList.add("drag-source");
+        e.dataTransfer!.effectAllowed = "move";
+        e.dataTransfer!.setData("text/plain", String(idx));
+      });
+      wrapper.addEventListener("dragover", (e) => { e.preventDefault(); e.dataTransfer!.dropEffect = "move"; });
+      wrapper.addEventListener("dragenter", (e) => { e.preventDefault(); wrapper.classList.add("drag-over"); });
+      wrapper.addEventListener("dragleave", () => wrapper.classList.remove("drag-over"));
+      wrapper.addEventListener("drop", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.classList.remove("drag-over");
+        const fromIdx = parseInt(e.dataTransfer!.getData("text/plain"));
+        if (fromIdx !== idx) {
+          const [moved] = allImages.splice(fromIdx, 1);
+          allImages.splice(idx, 0, moved);
+          rebuildAllImages();
+        }
+      });
+      wrapper.addEventListener("dragend", () => {
+        document.querySelectorAll(".draggable-image").forEach((el) => el.classList.remove("drag-source", "drag-over"));
+      });
+
+      let startY = 0;
+      let startX = 0;
+      let moved = false;
+      let ghost: HTMLElement | null = null;
+      wrapper.addEventListener("touchstart", (e) => {
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
+        moved = false;
+      }, { passive: true });
+      wrapper.addEventListener("touchmove", (e) => {
+        const touch = e.touches[0];
+        const dy = Math.abs(touch.clientY - startY);
+        const dx = Math.abs(touch.clientX - startX);
+        if (!moved && (dy > 5 || dx > 5)) moved = true;
+        if (!moved) return;
+        e.preventDefault();
+        if (!ghost) {
+          ghost = wrapper.cloneNode(true) as HTMLElement;
+          ghost.classList.add("touch-dragging");
+          ghost.style.width = wrapper.offsetWidth + "px";
+          ghost.style.height = wrapper.offsetHeight + "px";
+          document.body.appendChild(ghost);
+          wrapper.classList.add("drag-source");
+        }
+        ghost.style.left = (touch.clientX - wrapper.offsetWidth / 2) + "px";
+        ghost.style.top = (touch.clientY - wrapper.offsetHeight / 2) + "px";
+        ghost.style.display = "none";
+        const below = document.elementFromPoint(touch.clientX, touch.clientY);
+        ghost.style.display = "";
+        document.querySelectorAll(".draggable-image").forEach((el) => el.classList.remove("drag-over"));
+        const tgt = below?.closest(".draggable-image");
+        if (tgt && tgt !== wrapper) tgt.classList.add("drag-over");
+      }, { passive: false });
+      wrapper.addEventListener("touchend", (e) => {
+        if (ghost) { ghost.remove(); ghost = null; }
+        wrapper.classList.remove("drag-source");
+        document.querySelectorAll(".draggable-image").forEach((el) => el.classList.remove("drag-over"));
+        if (!moved) return;
+        const touch = e.changedTouches[0];
+        ghost = document.createElement("div");
+        ghost.style.display = "none";
+        document.body.appendChild(ghost);
+        const below = document.elementFromPoint(touch.clientX, touch.clientY);
+        ghost.remove();
+        ghost = null;
+        const tgt = below?.closest(".draggable-image");
+        if (tgt && tgt !== wrapper) {
+          const toIdx = parseInt((tgt as HTMLElement).dataset.index!);
+          const [m] = allImages.splice(idx, 1);
+          allImages.splice(toIdx, 0, m);
+          rebuildAllImages();
+        }
+      });
+    });
+  }
+
+  rebuildAllImages();
+
+  document.getElementById("gpx")!.addEventListener("change", (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    document.getElementById("gpx-name")!.textContent = file ? file.name : "";
+  });
+
+  document.getElementById("galeria")!.addEventListener("change", (e) => {
+    const files = (e.target as HTMLInputElement).files;
+    if (files) {
+      for (const file of Array.from(files)) {
+        allImages.push({ type: "new", file, previewUrl: "" });
+      }
+      rebuildAllImages();
+      (e.target as HTMLInputElement).value = "";
+    }
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    document.getElementById("confirm-modal")!.classList.remove("hidden");
+  });
+
+  document.getElementById("cancel-confirm")!.addEventListener("click", () => {
+    document.getElementById("confirm-modal")!.classList.add("hidden");
+  });
+
+  document.getElementById("confirm-modal")!.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) {
+      document.getElementById("confirm-modal")!.classList.add("hidden");
+    }
+  });
+
+  document.getElementById("do-confirm")!.addEventListener("click", async () => {
+    document.getElementById("confirm-modal")!.classList.add("hidden");
+    errorDiv.classList.add("hidden");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Guardando...";
+
+    const existingOrder = allImages.filter((i) => i.type === "existing").map((i) => i.filename);
+    const newFiles = allImages.filter((i) => i.type === "new").map((i) => i.file);
+
+    imageOrderInput.value = existingOrder.join(",");
+
+    const formData = new FormData(form);
+    formData.delete("galeria");
+    newFiles.forEach((f) => formData.append("galeria", f));
+
+    try {
+      const res = await fetch("/api/admin/rutas", {
+        method: "PUT",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        errorDiv.textContent = data.error || "Error al guardar";
+        errorDiv.classList.remove("hidden");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Guardar cambios";
+        return;
+      }
+
+      window.location.href = "/admin/rutas";
+    } catch {
+      errorDiv.textContent = "Error de conexion";
+      errorDiv.classList.remove("hidden");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Guardar cambios";
+    }
+  });
+</script>
