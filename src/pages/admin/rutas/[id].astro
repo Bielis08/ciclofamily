@@ -219,7 +219,7 @@ const gpxUrl = ruta.gpx ? `${supabaseUrl}/storage/v1/object/public/rutas-gpx/${r
 
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
-      removeBtn.className = "absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition";
+      removeBtn.className = "absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-60 hover:opacity-100 transition";
       removeBtn.textContent = "\u00d7";
       wrapper.appendChild(removeBtn);
 
