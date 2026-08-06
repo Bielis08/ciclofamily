@@ -125,12 +125,16 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
     pointer-events: none; z-index: 10;
     box-shadow: 0 0 6px rgba(60,195,71,0.6);
   }
+  @media (hover: none) {
+    :global(.draggable-preview .remove-preview) { opacity: 1 !important; }
+  }
 </style>
 
 <script>
   const form = document.getElementById("ruta-form") as HTMLFormElement;
   const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
   const errorDiv = document.getElementById("error-msg")!;
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
   let pendingFiles: File[] = [];
 
   function rebuildPreview() {
@@ -160,7 +164,7 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
 
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
-      removeBtn.className = "absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition remove-preview";
+      removeBtn.className = `absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition remove-preview ${isTouchDevice ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`;
       removeBtn.textContent = "x";
       wrapper.appendChild(removeBtn);
 
